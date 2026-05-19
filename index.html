@@ -1,0 +1,3117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>美联储主席成绩单</title>
+  <style>
+    :root {
+      --page: #f4f7fb;
+      --card: #ffffff;
+      --text: #182233;
+      --muted: #68758a;
+      --line: #e7edf6;
+      --blue: #1f65d6;
+      --blue-soft: #eef6ff;
+      --red: #d94738;
+      --green: #138a54;
+      --amber: #c88920;
+      --purple: #7655d6;
+      --font-display: "Songti SC", "STSong", "SimSun", "Source Han Serif SC", "Noto Serif SC", serif;
+      --font-number: "D-DIN-PRO", "D-DIN", "DIN Pro", "DIN Alternate", "Arial Narrow", sans-serif;
+      --font-ui: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #dfe6f0;
+      color: var(--text);
+      font-family: var(--font-ui);
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    .phone {
+      width: min(100vw, 414px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+      background: var(--page);
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      height: 140px;
+      padding: 0;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      position: relative;
+      left: 0;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+      gap: 12px;
+      width: 414px;
+      max-width: 100%;
+      height: 124px;
+      min-width: 0;
+      padding: 16px 16px 8px;
+      opacity: 1;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: none;
+      color: #111827;
+      font-family: var(--font-display) !important;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .crumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0;
+      color: #707888;
+      font-size: 14px;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    .crumb-arrow {
+      flex: 0 0 auto;
+      width: 14px;
+      height: 14px;
+      border-right: 0;
+      border-bottom: 0;
+      position: relative;
+    }
+
+    .crumb-arrow::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 7px;
+      height: 7px;
+      border-right: 1.6px solid #8b929d;
+      border-bottom: 1.6px solid #8b929d;
+      transform: rotate(-45deg);
+    }
+
+    .search-icon {
+      position: relative;
+      flex: 0 0 auto;
+      width: 14px;
+      height: 14px;
+      margin-left: 1px;
+      border: 1.6px solid #8b929d;
+      border-radius: 50%;
+    }
+
+    .search-icon::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      bottom: -2px;
+      width: 6px;
+      height: 1.6px;
+      border-radius: 2px;
+      background: #8b929d;
+      transform: rotate(45deg);
+    }
+
+    .hero-art {
+      position: absolute;
+      right: -18px;
+      bottom: -12px;
+      z-index: 1;
+      width: 212px;
+      height: 142px;
+      margin-left: 0;
+      overflow: visible;
+      background: transparent;
+    }
+
+    .hero-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: .9;
+    }
+
+    .selectors {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      width: auto;
+      margin-top: 0;
+    }
+
+    .hero-mode-trigger {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: auto;
+      min-width: 112px;
+      max-width: 210px;
+      height: 40px;
+      padding: 0 34px 0 14px;
+      border: 0;
+      border-radius: 2px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    .hero-mode-trigger::after {
+      content: "";
+      position: absolute;
+      right: 13px;
+      top: 13px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--blue);
+      border-bottom: 2px solid var(--blue);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .mode-picker-mask {
+      display: none;
+      position: fixed;
+      inset: 0 auto auto 50%;
+      z-index: 52;
+      width: min(100vw, 414px);
+      height: 100vh;
+      background: rgba(0, 0, 0, .72);
+      transform: translateX(-50%);
+    }
+
+    .mode-picker-sheet {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 53;
+      width: min(100vw, 414px);
+      padding: 16px 16px 18px;
+      background: #fff;
+      transform: translate(-50%, 110%);
+      transition: transform .22s ease;
+    }
+
+    .is-mode-picker-open .mode-picker-mask {
+      display: block;
+    }
+
+    .is-mode-picker-open .mode-picker-sheet {
+      transform: translate(-50%, 0);
+    }
+
+    .mode-picker-head {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      height: 28px;
+    }
+
+    .mode-picker-title {
+      color: #111827;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 22px;
+      text-align: center;
+    }
+
+    .mode-picker-action {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #6b778b;
+      font-size: 12px;
+      line-height: 18px;
+      text-align: left;
+    }
+
+    .mode-picker-action.confirm {
+      color: #5A82E6;
+      text-align: right;
+    }
+
+    .mode-picker-columns {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 20px;
+      max-height: 244px;
+      overflow: visible;
+    }
+
+    .mode-picker-columns.is-compare-mode {
+      width: 50%;
+      grid-template-columns: 1fr;
+    }
+
+    .mode-picker-columns::before {
+      display: none;
+    }
+
+    .mode-picker-columns.is-compare-mode #modePickerChairs {
+      display: none;
+    }
+
+    .mode-picker-col {
+      position: relative;
+      z-index: 1;
+      max-height: 244px;
+      padding: 0;
+      overflow-y: auto;
+      scroll-snap-type: none;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mode-picker-col::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mode-option,
+    .chair-option {
+      display: block;
+      width: 100%;
+      height: 40px;
+      padding: 0 8px;
+      border: 0;
+      background: transparent;
+      color: #8a8f98;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 2px;
+    }
+
+    .mode-option.is-active,
+    .chair-option.is-active {
+      background: #f4f4f4;
+      color: #111827;
+      font-weight: 800;
+    }
+
+    .mode-option.is-disabled,
+    .chair-option.is-disabled {
+      color: #c6ccd5;
+    }
+
+    .section {
+      padding: 22px 16px;
+      background: #fff;
+      border-top: 10px solid var(--page);
+    }
+
+    .section.first {
+      border-top: 0;
+      padding-top: 20px;
+    }
+
+    .compare-only,
+    .score-section {
+      border-top: 0;
+    }
+
+    .score-section {
+      padding-top: 18px;
+    }
+
+    .section-head,
+    .metric-row,
+    .chart-head,
+    .table-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: #162033;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 30px;
+      letter-spacing: 0;
+    }
+
+    .section-subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 19px;
+    }
+
+    .score-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chair-avatar {
+      display: grid;
+      place-items: center;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid #e7edf6;
+      border-radius: 999px;
+      background: #eef6ff;
+      color: var(--blue);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+      overflow: hidden;
+    }
+
+    .chair-avatar img {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: var(--avatar-fit, cover);
+      object-position: var(--avatar-position, 50% 50%);
+      transform: translate(var(--avatar-x, 0), var(--avatar-y, 0)) scale(var(--avatar-scale, 1));
+      transform-origin: 50% var(--avatar-origin, 50%);
+    }
+
+    .chair-avatar.has-image img {
+      display: block;
+    }
+
+    .chair-avatar.has-image span {
+      display: none;
+    }
+
+    .chair-name {
+      color: #162033;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .chair-term {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 2px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .big-metric {
+      margin-top: 22px;
+      padding: 14px 15px;
+      border: 1px solid #dfeeff;
+      border-radius: 2px;
+      background: #f8fbff;
+    }
+
+    .metric-label {
+      color: #647189;
+      font-size: 13px;
+      line-height: 19px;
+    }
+
+    .metric-row {
+      align-items: flex-end;
+      margin-top: 5px;
+    }
+
+    .metric-value {
+      color: var(--red);
+      font-family: var(--font-number);
+      font-size: 44px;
+      font-weight: 800;
+      line-height: .98;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-value.down {
+      color: var(--green);
+    }
+
+    .metric-note {
+      margin-top: 8px;
+      color: #536177;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mini-card {
+      min-height: 78px;
+      padding: 10px;
+      border: 1px solid #edf2f8;
+      border-radius: 2px;
+      background: #fbfcff;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 17px;
+    }
+
+    .mini-value {
+      margin-top: 6px;
+      color: #192235;
+      font-family: var(--font-number);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 28px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .red {
+      color: var(--red) !important;
+    }
+
+    .green {
+      color: var(--green) !important;
+    }
+
+    .blue {
+      color: var(--blue) !important;
+    }
+
+    .gray {
+      color: #8a96a8 !important;
+    }
+
+    .chart-card {
+      margin-top: 12px;
+      padding: 14px 12px 10px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--card);
+    }
+
+    .chart-title {
+      color: #162033;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .chart-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .chart-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 17px;
+    }
+
+    .chart-stat {
+      flex-shrink: 0;
+      max-width: 164px;
+      padding-top: 4px;
+      text-align: right;
+      font-family: var(--font-number);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .chart {
+      display: block;
+      width: 100%;
+      height: 180px;
+      margin-top: 8px;
+    }
+
+    .range-chart {
+      display: block;
+      width: 100%;
+      height: 32px;
+      margin-top: 8px;
+      border-radius: 0;
+      background: #f8fbff;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+
+    .chart-guide-legend {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0;
+      color: #68758a;
+      font-size: 11px;
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    .chart-guide-legend i {
+      width: 18px;
+      height: 8px;
+      border: 0;
+      background: rgba(217, 71, 56, .1);
+    }
+
+    .chart-guide-legend.is-line i {
+      height: 0;
+      border-top: 1px dashed var(--red);
+      background: transparent;
+    }
+
+    .chart-guide-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 18px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    .compare-rate-card {
+      margin-top: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .section.compare-only {
+      padding-top: 18px;
+      padding-bottom: 12px;
+    }
+
+    .compare-chart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .compare-chart-title {
+      color: #162033;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .compare-chart-meta {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 17px;
+    }
+
+    .compare-divider {
+      height: 6px;
+      width: calc(100% + 32px);
+      margin: 12px -16px 0;
+      background: #f4f7fb;
+    }
+
+    .history-rate-chart {
+      display: block;
+      width: 100%;
+      height: 178px;
+      margin-top: 6px;
+    }
+
+    .compare-only {
+      display: none;
+    }
+
+    .is-compare .single-only {
+      display: none;
+    }
+
+    .is-compare .compare-only {
+      display: block;
+    }
+
+    .is-compare .score-profile {
+      display: none;
+    }
+
+    .is-compare .score-section {
+      padding-top: 12px;
+    }
+
+    .is-compare #charts .chart-card:first-child {
+      margin-top: 0;
+    }
+
+    .is-compare .chart-head {
+      align-items: center;
+    }
+
+    .is-compare .chart-meta {
+      margin-top: 0;
+      text-align: right;
+    }
+
+    .compare-picker-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 32px;
+      margin-top: 10px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: #fff;
+      color: #1b2536;
+      text-align: left;
+    }
+
+    .compare-picker-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .compare-picker-trigger .compare-picker-title {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .compare-picker-count {
+      color: #68758a;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .trigger-chevron {
+      width: 7px;
+      height: 7px;
+      margin-top: -2px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    .compare-picker-mask {
+      display: none;
+      position: fixed;
+      inset: 0 auto auto 50%;
+      z-index: 48;
+      width: min(100vw, 414px);
+      height: 100vh;
+      background: rgba(0, 0, 0, .58);
+      transform: translateX(-50%);
+    }
+
+    .compare-picker-sheet {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 49;
+      width: min(100vw, 414px);
+      padding: 18px 20px 28px;
+      background: #fff;
+      box-shadow: 0 -12px 26px rgba(18, 32, 55, .14);
+      transform: translate(-50%, 110%);
+      transition: transform .22s ease;
+    }
+
+    .is-picker-open .compare-picker-mask {
+      display: block;
+    }
+
+    .is-picker-open .compare-picker-sheet {
+      transform: translate(-50%, 0);
+    }
+
+    .picker-sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .picker-sheet-title {
+      color: #111827;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 24px;
+    }
+
+    .picker-close {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #8a96a8;
+    }
+
+    .picker-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+    }
+
+    .compare-picker {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .compare-picker-sheet .compare-picker {
+      margin-top: 16px;
+    }
+
+    .picker-confirm {
+      display: block;
+      width: 100%;
+      height: 40px;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 2px;
+      background: #5A82E6;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    .picker-home-indicator {
+      width: 118px;
+      height: 4px;
+      margin: 16px auto 0;
+      border-radius: 999px;
+      background: #111;
+    }
+
+    .check-pill {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+      min-height: 40px;
+      padding: 0 9px 0 32px;
+      border: .5px solid #dcdcdc;
+      border-radius: 0;
+      background: #fff;
+      color: rgba(0, 0, 0, .9);
+      font-size: 14px;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .check-pill:has(input:checked) {
+      background: #eef4ff;
+      border-color: #dcdcdc;
+      color: #5A82E6;
+      font-weight: 600;
+    }
+
+    .check-pill input {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .check-pill::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      margin-top: -9px;
+      border: .5px solid #dcdcdc;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .check-pill:has(input:checked)::before {
+      border-color: #5A82E6;
+      background: #5A82E6;
+    }
+
+    .check-pill:has(input:checked)::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      width: 6px;
+      height: 10px;
+      margin-top: -7px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      margin-top: 8px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      color: #536177;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .legend-line {
+      width: 22px;
+      height: 5px;
+      margin-right: 6px;
+      border-radius: 2px;
+    }
+
+    .table-scroll {
+      width: 100%;
+      margin-top: 10px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: #fff;
+    }
+
+    table {
+      width: 800px;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border: 0;
+      border-bottom: 1px solid #edf2f8;
+      background: #fff;
+      text-align: right;
+      font-size: 13px;
+      line-height: 18px;
+      color: #30394a;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th {
+      background: #f7faff;
+      color: #66748a;
+      font-weight: 800;
+    }
+
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      width: 86px;
+      min-width: 86px;
+      max-width: 86px;
+      box-shadow: 1px 0 0 #edf2f8;
+      text-align: left;
+      font-weight: 800;
+    }
+
+    th:first-child {
+      z-index: 4;
+      background: #f7faff;
+    }
+
+    td:first-child {
+      z-index: 3;
+      background: #fff;
+    }
+
+    .th-content {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    th:first-child .th-content {
+      justify-content: flex-start;
+    }
+
+    .sort-btn {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #a7b1c0;
+    }
+
+    .sort-btn.is-active {
+      color: #5A82E6;
+    }
+
+    .sort-icon {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .sort-btn .sort-up,
+    .sort-btn .sort-down {
+      opacity: .48;
+    }
+
+    .sort-btn.is-asc .sort-up,
+    .sort-btn.is-desc .sort-down {
+      opacity: 1;
+    }
+
+    .sort-btn.is-asc .sort-down,
+    .sort-btn.is-desc .sort-up {
+      opacity: .22;
+    }
+
+    td .term {
+      display: block;
+      margin-top: 3px;
+      color: #7b8799;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .bottom-actions {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 30;
+      display: grid;
+      grid-template-columns: 1.45fr 1fr 1fr;
+      gap: 8px;
+      width: min(100vw, 414px);
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, .98);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 18px rgba(18, 32, 55, .06);
+      transform: translateX(-50%);
+      backdrop-filter: blur(12px);
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      height: 40px;
+      border: 1px solid #dfe7f2;
+      border-radius: 2px;
+      background: #fff;
+      color: #263044;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .action-icon {
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      color: currentColor;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .action-btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" id="app">
+    <header class="hero">
+      <div class="hero-copy">
+        <h1>美联储主席成绩单</h1>
+        <div class="crumb">
+          <span>金十数据</span>
+          <i class="crumb-arrow"></i>
+          <span>美联储</span>
+          <i class="search-icon"></i>
+        </div>
+        <div class="selectors">
+          <button class="hero-mode-trigger" id="heroModeTrigger" type="button" aria-label="选择模式和主席">单人模式-鲍威尔</button>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="assets/federal_reserve_building_no_bg.png" alt="美联储建筑" />
+      </div>
+    </header>
+
+    <div class="mode-picker-mask" id="modePickerMask"></div>
+    <div class="mode-picker-sheet" id="modePickerSheet" role="dialog" aria-modal="true" aria-label="选择模式">
+      <div class="mode-picker-head">
+        <button class="mode-picker-action" id="modePickerCancel" type="button">取消</button>
+        <div class="mode-picker-title">选择模式</div>
+        <button class="mode-picker-action confirm" id="modePickerConfirm" type="button">确定</button>
+      </div>
+      <div class="mode-picker-columns" id="modePickerColumns">
+        <div class="mode-picker-col" id="modePickerModes"></div>
+        <div class="mode-picker-col" id="modePickerChairs"></div>
+      </div>
+    </div>
+
+    <section class="section compare-only">
+      <div class="compare-rate-card">
+        <div class="compare-chart-head">
+          <div class="compare-chart-title">历年美联储利率变化</div>
+          <div class="compare-chart-meta">联邦基金有效利率(%)</div>
+        </div>
+        <canvas class="history-rate-chart" id="historicalRateChart" width="680" height="356"></canvas>
+      </div>
+      <div class="compare-divider"></div>
+      <button class="compare-picker-trigger" id="comparePickerTrigger" type="button" aria-label="展开美联储主席选择">
+        <span class="compare-picker-title">美联储主席选择<i class="trigger-chevron"></i></span>
+        <span class="compare-picker-count" id="compareCount">已选3个</span>
+      </button>
+      <div class="compare-picker-mask" id="comparePickerMask"></div>
+      <div class="compare-picker-sheet" id="comparePickerSheet" role="dialog" aria-modal="true" aria-label="美联储主席选择">
+        <div class="picker-sheet-head">
+          <div class="picker-sheet-title">美联储主席选择</div>
+          <button class="picker-close" id="comparePickerClose" type="button" aria-label="关闭美联储主席选择">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12"></path>
+              <path d="M18 6L6 18"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="compare-picker" id="comparePicker"></div>
+        <button class="picker-confirm" id="comparePickerConfirm" type="button">确定</button>
+        <div class="picker-home-indicator"></div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr id="compareHeader"></tr>
+          </thead>
+          <tbody id="compareRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section score-section">
+      <div class="score-profile">
+        <div class="chair-avatar" id="scoreAvatar">
+          <img id="scoreAvatarImg" src="" alt="" />
+          <span id="scoreAvatarText">鲍</span>
+        </div>
+        <div>
+          <div class="chair-name" id="scoreChairName">杰罗姆·鲍威尔任内成绩单</div>
+          <div class="chair-term" id="scoreTerm">任期：2018.02.06-2026.05.15</div>
+        </div>
+      </div>
+
+      <div id="charts"></div>
+    </section>
+
+    <nav class="bottom-actions" aria-label="页面操作">
+      <a class="action-btn primary" href="https://app.jin10.com/" target="_blank" rel="noopener">
+        <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3v11"></path>
+          <path d="M7.5 10.5 12 15l4.5-4.5"></path>
+          <path d="M5 19h14"></path>
+        </svg>
+        下载金十数据APP
+      </a>
+      <button class="action-btn" type="button">
+        <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8.5 12.5 15.5 16.5"></path>
+          <path d="M15.5 7.5 8.5 11.5"></path>
+          <circle cx="6.5" cy="12" r="2.5"></circle>
+          <circle cx="17.5" cy="6.5" r="2.5"></circle>
+          <circle cx="17.5" cy="17.5" r="2.5"></circle>
+        </svg>
+        分享
+      </button>
+      <button class="action-btn" type="button">
+        <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 6.5h14a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H10l-5 4v-4.5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"></path>
+          <path d="M8 11h8"></path>
+          <path d="M8 14h5"></path>
+        </svg>
+        评论区
+      </button>
+    </nav>
+
+  </main>
+
+  <script src="assets/macro-actual-data.js"></script>
+  <script src="assets/neutral-rate-data.js"></script>
+  <script src="assets/powell-chart-data.js"></script>
+  <script>
+    const fedBlue = "#1f65d6";
+    const neutralRateRed = "#d94738";
+    const watermarkLogo = new Image();
+    watermarkLogo.src = "assets/jin10-logo.svg";
+    const charts = [
+      { key: "rate", title: "美联储利率", meta: "联邦基金有效利率(%)", unit: "%", color: fedBlue, market: false, neutralRate: true },
+      { key: "cpi", title: "美国PCE", meta: "", unit: "%", color: fedBlue, market: false, guideLines: [{ value: 2, label: "合格线：2%", legend: true }] },
+      { key: "unemployment", title: "美国失业率", meta: "", unit: "%", color: fedBlue, market: false, guideBand: { from: 4.3, to: 4.5, label: "合格区间：4.3%-4.5%" } },
+      { key: "gold", title: "现货黄金走势", meta: "美元/盎司", unit: "", color: fedBlue, market: true },
+      { key: "wti", title: "WTI原油走势", meta: "美元/桶", unit: "", color: fedBlue, market: true },
+      { key: "dxy", title: "美元指数走势", meta: "", unit: "", color: fedBlue, market: true },
+      { key: "spx", title: "标普500指数走势", meta: "", unit: "", color: fedBlue, market: true }
+    ];
+    const macroKeys = new Set(["rate", "cpi", "unemployment"]);
+    const compareColumns = [
+      { key: "chair", label: "主席" },
+      { key: "rate", label: "利率", sortable: true },
+      { key: "cpi", label: "PCE均值", sortable: true },
+      { key: "unemployment", label: "失业率均值", sortable: true },
+      { key: "gold", label: "黄金", sortable: true },
+      { key: "wti", label: "WTI", sortable: true },
+      { key: "dxy", label: "美元", sortable: true },
+      { key: "spx", label: "标普", sortable: true }
+    ];
+
+    const chairColors = ["#1f65d6", "#c88920", "#138a54", "#7655d6", "#2786a8", "#d94738", "#8a5a44", "#536177"];
+    const chairTermColors = ["rgba(31,101,214,.12)", "rgba(200,137,32,.14)", "rgba(19,138,84,.12)", "rgba(118,85,214,.12)", "rgba(39,134,168,.12)", "rgba(217,71,56,.1)", "rgba(138,90,68,.12)", "rgba(83,97,119,.12)"];
+    const avatarMap = {
+      martin: "assets/fed-chairs/chair-martin.png",
+      burns: "assets/fed-chairs/chair-burns.png",
+      miller: "assets/fed-chairs/chair-miller.png",
+      volcker: "assets/fed-chairs/chair-volcker.png",
+      greenspan: "assets/fed-chairs/chair-greenspan.png",
+      bernanke: "assets/fed-chairs/chair-bernanke.png",
+      yellen: "assets/fed-chairs/chair-yellen.png",
+      powell: "assets/fed-chairs/chair-powell.png",
+      warsh: "assets/fed-chairs/chair-warsh.png"
+    };
+    const avatarStyles = {
+      powell: "--avatar-scale:1;--avatar-position:50% 44%;--avatar-origin:50% 42%;",
+      burns: "--avatar-scale:1;--avatar-position:50% 50%;--avatar-origin:50% 50%;",
+      greenspan: "--avatar-scale:1;--avatar-position:50% 46%;--avatar-origin:50% 46%;",
+      martin: "--avatar-fit:contain;--avatar-scale:.96;--avatar-position:50% 50%;--avatar-origin:50% 50%;",
+      miller: "--avatar-fit:contain;--avatar-scale:1;--avatar-position:50% 50%;--avatar-origin:50% 50%;",
+      volcker: "--avatar-fit:cover;--avatar-scale:1.34;--avatar-position:50% 50%;--avatar-origin:32%;--avatar-y:2px;",
+      bernanke: "--avatar-scale:1.08;--avatar-position:50% 50%;--avatar-origin:50% 50%;",
+      yellen: "--avatar-scale:1.2;--avatar-position:50% 60%;--avatar-origin:50% 50%;",
+      warsh: "--avatar-fit:contain;--avatar-scale:.98;--avatar-position:50% 50%;--avatar-origin:50% 50%;"
+    };
+    const rangeStates = {};
+    const tooltipStates = {};
+    const chartPointCache = {};
+    const officialMacroCacheKey = "fed-chair-official-macro-v3-pce";
+    let activeRangeDrag = null;
+    let historicalRateTooltip = null;
+    let historicalRatePointCache = [];
+    watermarkLogo.onload = () => charts.forEach(drawChart);
+
+    const termDateMap = {
+      martin: { start: "1951.04.02", end: "1970.01.31" },
+      burns: { start: "1970.02.01", end: "1978.01.31" },
+      miller: { start: "1978.03.08", end: "1979.08.06" },
+      volcker: { start: "1979.08.06", end: "1987.08.11" },
+      greenspan: { start: "1987.08.11", end: "2006.01.31" },
+      bernanke: { start: "2006.02.01", end: "2014.01.31" },
+      yellen: { start: "2014.02.03", end: "2018.02.03" },
+      powell: { start: "2018.02.06", end: "2026.05.15" },
+      warsh: { start: "2026.05.15", end: "2026.05.15" }
+    };
+
+    const chairmen = [
+      {
+        id: "martin", name: "威廉·马丁", shortName: "马丁", term: "1951.04-1970.01", status: "历史任期", tag: "战后扩张",
+        rateLabel: "任内加息", rateMove: "+425bp", rateTone: "red", note: "长期扩张与多轮温和紧缩交替",
+        summary: { cpi: "均值 2.5%", job: "低点 3.4%", spx: "+212%", gold: "+0%" },
+        headlines: { rate: "加息 +425bp", cpi: "均值 2.5%", unemployment: "低点 3.4%", yield10y: "+340bp", gold: "+0%", wti: "+54%", dxy: "-2%", spx: "+212%" },
+        series: { rate: [1.75,2.5,3,4,3.5,5,6], cpi: [7.9,.8,1.5,1.2,2.8,4.2,5.8], unemployment: [3.3,4.4,5.5,5.1,3.8,3.6,3.9], yield10y: [2.4,2.8,3.3,4,4.6,5.2,5.8], gold: [35,35,35,35,35,35,35], wti: [2.6,2.8,2.9,3,3.1,3.4,4], dxy: [117,116,115,114,116,114,115], spx: [23,35,47,55,75,93,72] }
+      },
+      {
+        id: "burns", name: "亚瑟·伯恩斯", shortName: "伯恩斯", term: "1970.02-1978.01", status: "历史任期", tag: "滞胀压力",
+        rateLabel: "任内加息", rateMove: "+150bp", rateTone: "red", note: "高通胀与能源冲击是任期主线",
+        summary: { cpi: "峰值 12.2%", job: "峰值 9.0%", spx: "-8%", gold: "+408%" },
+        headlines: { rate: "加息 +150bp", cpi: "峰值 12.2%", unemployment: "峰值 9.0%", yield10y: "+120bp", gold: "+408%", wti: "+205%", dxy: "-19%", spx: "-8%" },
+        series: { rate: [6,4.5,3.5,8.5,12,5.5,7.5], cpi: [5.8,4.3,3.3,6.2,11,9.1,6.5], unemployment: [3.9,5.9,5.6,4.9,7.2,8.5,6.4], yield10y: [5.8,6.2,6,7.4,7.9,7.6,7], gold: [35,42,65,120,180,130,178], wti: [4,4.3,4.7,10.8,12.5,13.2,12.2], dxy: [115,112,105,100,98,94,93], spx: [72,92,107,96,68,90,66] }
+      },
+      {
+        id: "miller", name: "威廉·米勒", shortName: "米勒", term: "1978.03-1979.08", status: "历史任期", tag: "短任期高通胀",
+        rateLabel: "任内加息", rateMove: "+375bp", rateTone: "red", note: "任期较短，通胀继续升温",
+        summary: { cpi: "终点 11.8%", job: "约 6%", spx: "+10%", gold: "+68%" },
+        headlines: { rate: "加息 +375bp", cpi: "终点 11.8%", unemployment: "小幅下降", yield10y: "+160bp", gold: "+68%", wti: "+89%", dxy: "-4%", spx: "+10%" },
+        series: { rate: [7.5,8,8.5,10,11.25], cpi: [6.8,7.4,9,10.5,11.8], unemployment: [6.3,6.1,6,5.9,6], yield10y: [7.8,8.2,8.7,9.1,9.4], gold: [178,195,225,260,300], wti: [12.5,13.4,15.6,19.8,23.6], dxy: [93,91,90,88,89], spx: [87,96,99,101,96] }
+      },
+      {
+        id: "volcker", name: "保罗·沃尔克", shortName: "沃尔克", term: "1979.08-1987.08", status: "历史任期", tag: "抗通胀转折",
+        rateLabel: "任内加息", rateMove: "+200bp", rateTone: "red", note: "以高利率压制通胀，后期进入降息通道",
+        summary: { cpi: "峰值 14.8%", job: "峰值 10.8%", spx: "+146%", gold: "+51%" },
+        headlines: { rate: "加息 +200bp", cpi: "峰值 14.8%", unemployment: "峰值 10.8%", yield10y: "-120bp", gold: "+51%", wti: "-8%", dxy: "+14%", spx: "+146%" },
+        series: { rate: [11.25,17.5,20,14,10,8,6.5,7.5,13.25], cpi: [11.8,13.5,10.3,6.2,3.2,4.3,3.6,1.9,4], unemployment: [6,7.2,7.6,9.7,10.8,7.2,7,6.6,6.2], yield10y: [9.4,12.4,14.6,10.5,11.6,10.6,7.7,7.3,8.2], gold: [300,615,460,375,420,360,330,390,452], wti: [23.6,36,32,29,28,26,27,15,21.7], dxy: [89,94,101,112,128,150,136,104,101], spx: [96,129,122,140,165,190,245,285,236] }
+      },
+      {
+        id: "greenspan", name: "艾伦·格林斯潘", shortName: "格林斯潘", term: "1987.08-2006.01", status: "历史任期", tag: "大缓和与互联网周期",
+        rateLabel: "任内降息", rateMove: "-50bp", rateTone: "green", note: "跨越黑色星期一、互联网泡沫与911后宽松",
+        summary: { cpi: "均值 3.0%", job: "低点 3.8%", spx: "+316%", gold: "+27%" },
+        headlines: { rate: "降息 -50bp", cpi: "均值 3.0%", unemployment: "低点 3.8%", yield10y: "-380bp", gold: "+27%", wti: "+196%", dxy: "-11%", spx: "+316%" },
+        series: { rate: [6.75,9.75,3,6,5.25,6.5,1,4.25,6.25], cpi: [4,5.4,3,2.7,3.3,2.2,1.6,3.4,4], unemployment: [6.2,5.3,7.5,5.6,4.6,3.9,5.8,5.4,4.7], yield10y: [8.2,8.9,6.7,6.2,6.8,6,4,4.3,4.4], gold: [452,410,360,385,290,275,320,430,575], wti: [21.7,17,21,19,25,30,22,41,64.2], dxy: [101,93,88,94,100,118,105,85,90], spx: [236,350,417,615,970,1469,879,1111,1282] }
+      },
+      {
+        id: "bernanke", name: "本·伯南克", shortName: "伯南克", term: "2006.02-2014.01", status: "历史任期", tag: "金融危机与量化宽松",
+        rateLabel: "任内降息", rateMove: "-500bp", rateTone: "green", note: "金融危机后长期零利率与资产负债表扩张",
+        summary: { cpi: "低点 -2.1%", job: "峰值 10.0%", spx: "+44%", gold: "+119%" },
+        headlines: { rate: "降息 -500bp", cpi: "低点 -2.1%", unemployment: "峰值 10.0%", yield10y: "-170bp", gold: "+119%", wti: "+51%", dxy: "-10%", spx: "+44%" },
+        series: { rate: [4.5,5.25,2,.25,.25,.25,.25,.25], cpi: [4,2.8,5.6,-1.5,1.6,3.2,1.7,1.5], unemployment: [4.7,4.5,6.1,9.9,9.4,8.5,7.8,6.6], yield10y: [4.4,4.7,3.8,3.8,3.3,1.9,1.8,2.7], gold: [575,650,870,1090,1420,1570,1660,1258], wti: [64,72,99,62,79,95,92,97], dxy: [90,81,74,78,80,79,80,81], spx: [1282,1468,903,1115,1258,1257,1426,1848] }
+      },
+      {
+        id: "yellen", name: "珍妮特·耶伦", shortName: "耶伦", term: "2014.02-2018.02", status: "历史任期", tag: "后危机正常化",
+        rateLabel: "任内加息", rateMove: "+125bp", rateTone: "red", note: "温和加息并启动资产负债表正常化",
+        summary: { cpi: "均值 1.5%", job: "终点 4.1%", spx: "+57%", gold: "+2%" },
+        headlines: { rate: "加息 +125bp", cpi: "均值 1.5%", unemployment: "-2.5pct", yield10y: "+10bp", gold: "+2%", wti: "-35%", dxy: "+9%", spx: "+57%" },
+        series: { rate: [.25,.25,.5,.75,1.5], cpi: [1.6,.1,.7,2.1,2.1], unemployment: [6.6,5.7,4.9,4.7,4.1], yield10y: [2.7,2.2,1.8,2.5,2.8], gold: [1258,1184,1060,1150,1280], wti: [97,53,37,53,63], dxy: [81,91,99,102,89], spx: [1848,2059,1920,2278,2872] }
+      },
+      {
+        id: "powell", name: "杰罗姆·鲍威尔", shortName: "鲍威尔", term: "2018.02-至今", status: "现任", tag: "疫情冲击与高通胀周期",
+        rateLabel: "任内加息", rateMove: "+375bp", rateTone: "red", note: "先降至零利率，再以快速加息应对高通胀",
+        summary: { cpi: "峰值 9.1%", job: "峰值 14.7%", spx: "+87%", gold: "+76%" },
+        headlines: { rate: "加息 +375bp", cpi: "峰值 9.1%", unemployment: "峰值 14.7%", yield10y: "+190bp", gold: "+76%", wti: "+4%", dxy: "+7%", spx: "+87%" },
+        series: { rate: [1.5,2.5,.25,.25,4.5,5.5,5.25], cpi: [2.1,1.8,1.2,7,9.1,3.4,3], unemployment: [4.1,3.5,14.7,6.7,3.6,3.9,4], yield10y: [2.8,1.9,.7,1.5,3.8,4.2,4.7], gold: [1328,1517,1895,1829,1812,2062,2340], wti: [63,61,22,75,80,72,65], dxy: [89,97,90,96,104,101,95], spx: [2872,3230,2585,4766,3839,4770,5370] }
+      },
+      {
+        id: "warsh", name: "凯文·沃什", shortName: "沃什", term: "2026.05-至今", status: "现任", tag: "新任主席",
+        rateLabel: "未有利率变动", rateMove: "0bp", rateTone: "gray", note: "今日新上任，暂按最新公开实际值展示",
+        summary: { cpi: "峰值 3.8%", job: "峰值 4.3%", spx: "0%", gold: "0%" },
+        headlines: { rate: "未有利率变动", cpi: "峰值 3.8%", unemployment: "峰值 4.3%", yield10y: "0bp", gold: "0%", wti: "0%", dxy: "0%", spx: "0%" },
+        series: { rate: [3.75], cpi: [3.8], unemployment: [4.3], yield10y: [4.7], gold: [2340], wti: [65], dxy: [95], spx: [5370] }
+      }
+    ];
+
+    let mode = "single";
+    let currentId = "powell";
+    let compareIds = ["powell", "yellen", "bernanke"];
+    let draftCompareIds = [...compareIds];
+    let compareSort = { key: null, direction: "desc" };
+    let comparePickerOpen = false;
+    let modePickerOpen = false;
+    let draftMode = mode;
+    let draftChairId = currentId;
+
+    const $ = (selector) => document.querySelector(selector);
+    const byId = (id) => chairmen.find((item) => item.id === id) || chairmen[0];
+    const getTermRange = (id) => termDateMap[id] || { start: byId(id).term.split("-")[0], end: byId(id).term.split("-")[1] || "" };
+
+    function formatDateDot(date) {
+      return date.replace(/-/g, ".");
+    }
+
+    function formatDateMonth(date) {
+      return date.replace(/\./g, "-").slice(0, 7);
+    }
+
+    function parseDateTime(date) {
+      return new Date(date.replace(/\./g, "-")).getTime();
+    }
+
+    function interpolateDate(startDate, endDate, index, total) {
+      const start = parseDateTime(startDate);
+      const end = parseDateTime(endDate);
+      const ratio = total <= 1 ? 0 : index / (total - 1);
+      return start + (end - start) * ratio;
+    }
+
+    function yearFromTime(time) {
+      return new Date(time).getFullYear();
+    }
+
+    function formatHeadline(chairman, key) {
+      const raw = chairman.headlines[key];
+      if (key === "rate") {
+        return raw.replace("加息 +", "任内加息 ").replace("降息 -", "任内降息 ");
+      }
+      if (key === "unemployment") {
+        return raw.replace("高点 ", "峰值").replace("高点", "峰值");
+      }
+      if (key === "cpi") return raw.includes("峰值") ? raw : raw.replace("均值", "峰值").replace("终点", "峰值").replace("低点", "峰值");
+      return raw.startsWith("任内") ? raw.replace(/^任内(?=[+\-\d])/, "任内 ") : `任内 ${raw}`;
+    }
+
+    function niceStep(rawStep) {
+      if (!Number.isFinite(rawStep) || rawStep <= 0) return 1;
+      const power = Math.pow(10, Math.floor(Math.log10(rawStep)));
+      const normalized = rawStep / power;
+      const nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+      return nice * power;
+    }
+
+    function buildNiceScale(values, chart) {
+      const showGuides = mode !== "compare";
+      const guideValues = showGuides ? (chart.guideLines || []).map((line) => line.value).filter(Number.isFinite) : [];
+      const guideBandValues = showGuides && chart.guideBand ? [chart.guideBand.from, chart.guideBand.to].filter(Number.isFinite) : [];
+      const scaleValues = values.concat(guideValues, guideBandValues);
+      const rawMin = Math.min(...scaleValues);
+      const rawMax = Math.max(...scaleValues);
+      const span = rawMax - rawMin || Math.abs(rawMax) || 1;
+      let step = niceStep(span / 4);
+      if (chart.unit === "%" && step < 1) step = 1;
+      const includeZero = chart.unit === "%" && rawMin >= 0;
+      const min = includeZero ? 0 : Math.floor(rawMin / step) * step;
+      const max = Math.ceil(rawMax / step) * step;
+      const ticks = [];
+      for (let value = min; value <= max + step * 0.5; value += step) {
+        ticks.push(Number(value.toFixed(8)));
+      }
+      return { min, max: ticks[ticks.length - 1], ticks };
+    }
+
+    function drawGuideLines(ctx, chart, width, pad, plotH, min, max) {
+      if (mode === "compare") return;
+      if (!chart.guideLines?.length && !chart.guideBand) return;
+      ctx.save();
+      if (chart.guideBand && Number.isFinite(chart.guideBand.from) && Number.isFinite(chart.guideBand.to)) {
+        const from = Math.max(min, Math.min(max, chart.guideBand.from));
+        const to = Math.max(min, Math.min(max, chart.guideBand.to));
+        const y1 = pad.top + plotH - ((Math.max(from, to) - min) / (max - min || 1)) * plotH;
+        const y2 = pad.top + plotH - ((Math.min(from, to) - min) / (max - min || 1)) * plotH;
+        ctx.fillStyle = "rgba(217, 71, 56, .1)";
+        ctx.fillRect(pad.left, y1, width - pad.left - pad.right, Math.max(1, y2 - y1));
+      }
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "right";
+      (chart.guideLines || []).forEach((line, index) => {
+        if (!Number.isFinite(line.value) || line.value < min || line.value > max) return;
+        const y = pad.top + plotH - ((line.value - min) / (max - min || 1)) * plotH;
+        ctx.strokeStyle = "rgba(217, 71, 56, .72)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+      ctx.restore();
+    }
+
+    function formatAxisLabel(value, unit) {
+      const rounded = Math.abs(value) < 1e-8 ? 0 : value;
+      const hasDecimal = Math.abs(rounded % 1) > 1e-8;
+      const label = hasDecimal ? rounded.toFixed(1) : String(Math.round(rounded));
+      return unit === "%" ? `${label}%` : Number(label).toLocaleString("en-US");
+    }
+
+    function formatYear(date) {
+      return date.replace(/\./g, "-").slice(0, 4);
+    }
+
+    function buildYearTicks(startDate, endDate) {
+      const startYear = Number(formatYear(startDate));
+      const endYear = Number(formatYear(endDate));
+      if (!Number.isFinite(startYear) || !Number.isFinite(endYear) || endYear < startYear) {
+        return [];
+      }
+      if (endYear === startYear) return [String(startYear)];
+      const ticks = [];
+      for (let year = startYear; year <= endYear; year += 2) {
+        ticks.push(String(year));
+      }
+      if (ticks[ticks.length - 1] !== String(endYear)) ticks.push(String(endYear));
+      return ticks;
+    }
+
+    function buildYearTicksForWidth(startDate, endDate, plotWidth, minGap = 44) {
+      const startYear = Number(formatYear(startDate));
+      const endYear = Number(formatYear(endDate));
+      if (!Number.isFinite(startYear) || !Number.isFinite(endYear) || endYear < startYear) {
+        return [];
+      }
+      if (endYear === startYear) return [String(startYear)];
+      const span = endYear - startYear;
+      const maxLabels = Math.max(2, Math.floor(plotWidth / minGap));
+      const step = Math.max(1, Math.ceil(span / Math.max(maxLabels - 1, 1)));
+      const ticks = [String(startYear)];
+      let year = startYear + step;
+      while (year < endYear) {
+        ticks.push(String(year));
+        year += step;
+      }
+      if (ticks[ticks.length - 1] !== String(endYear)) ticks.push(String(endYear));
+      return ticks;
+    }
+
+    function getRangeState(key) {
+      if (!rangeStates[key]) rangeStates[key] = { start: 0, end: 1 };
+      return rangeStates[key];
+    }
+
+    function setRangeState(key, next) {
+      const minWidth = .08;
+      let start = clamp(next.start, 0, 1 - minWidth);
+      let end = clamp(next.end, minWidth, 1);
+      if (end - start < minWidth) {
+        if (next.anchor === "start") {
+          end = clamp(start + minWidth, minWidth, 1);
+        } else {
+          start = clamp(end - minWidth, 0, 1 - minWidth);
+        }
+      }
+      rangeStates[key] = { start, end };
+    }
+
+    function filterPointsByRange(points, key) {
+      if (points.length <= 2) return points;
+      const range = getRangeState(key);
+      const lastIndex = points.length - 1;
+      let startIndex = Math.floor(range.start * lastIndex);
+      let endIndex = Math.ceil(range.end * lastIndex);
+      startIndex = clamp(startIndex, 0, lastIndex - 1);
+      endIndex = clamp(endIndex, startIndex + 1, lastIndex);
+      return points.slice(startIndex, endIndex + 1);
+    }
+
+    function getVisibleWindowMeta(points, key) {
+      const range = getRangeState(key);
+      const lastIndex = Math.max(points.length - 1, 0);
+      const startIndex = clamp(Math.floor(range.start * lastIndex), 0, lastIndex);
+      const endIndex = clamp(Math.ceil(range.end * lastIndex), startIndex, lastIndex);
+      return {
+        range,
+        startIndex,
+        endIndex,
+        first: points[startIndex] || points[0],
+        last: points[endIndex] || points.at(-1)
+      };
+    }
+
+    function isDirectionalText(text) {
+      return /[+\-]|加息|降息|涨|跌/.test(text);
+    }
+
+    function isZeroMoveText(text) {
+      const compact = String(text).replace(/\s+/g, "");
+      if (compact.includes("未变动") || compact.includes("未有利率变动")) return true;
+      const match = compact.match(/[+\-]?\d+(?:\.\d+)?(?=%|bp|pct)/);
+      return Boolean(match) && Math.abs(Number(match[0])) < 0.005;
+    }
+
+    function statColor(headline) {
+      if (isZeroMoveText(headline)) return "#8a96a8";
+      if (String(headline).includes("峰值")) return "var(--red)";
+      if (headline.includes("-") || headline.includes("降息")) return "var(--green)";
+      return isDirectionalText(headline) ? "var(--red)" : "var(--blue)";
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function chairColor(id) {
+      const index = chairmen.findIndex((item) => item.id === id);
+      return chairColors[(index >= 0 ? index : 0) % chairColors.length];
+    }
+
+    function drawLabel(ctx, text, x, y, options = {}) {
+      const paddingX = 3;
+      ctx.save();
+      ctx.font = options.font || "bold 12px D-DIN-PRO, DIN Alternate, Arial Narrow";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = options.align || "left";
+      const metrics = ctx.measureText(text);
+      const canvasWidth = options.canvasWidth || 360;
+      let drawX = x;
+      if (ctx.textAlign === "left") {
+        drawX = clamp(x, paddingX, canvasWidth - metrics.width - paddingX);
+      } else if (ctx.textAlign === "right") {
+        drawX = clamp(x, metrics.width + paddingX, canvasWidth - paddingX);
+      }
+      const drawY = clamp(y, 8, (options.canvasHeight || 180) - 8);
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 4;
+      ctx.strokeText(text, drawX, drawY);
+      ctx.fillStyle = options.color || "#1f65d6";
+      ctx.fillText(text, drawX, drawY);
+      ctx.restore();
+    }
+
+    function drawMarkedPoint(ctx, point, color, radius) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#fff";
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawRoundRect(ctx, x, y, width, height, radius) {
+      const r = Math.min(radius, width / 2, height / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + width - r, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+      ctx.lineTo(x + width, y + height - r);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+      ctx.lineTo(x + r, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function drawWatermark(ctx, width, height, pad) {
+      ctx.save();
+      ctx.globalAlpha = .1;
+      const logoW = 70;
+      const logoRatio = watermarkLogo.naturalWidth && watermarkLogo.naturalHeight
+        ? watermarkLogo.naturalHeight / watermarkLogo.naturalWidth
+        : 393 / 1275;
+      const logoH = logoW * logoRatio;
+      const x = width - pad.right - logoW - 2;
+      const y = height - pad.bottom - logoH - 6;
+      if (watermarkLogo.complete && watermarkLogo.naturalWidth) {
+        ctx.filter = "brightness(0)";
+        ctx.drawImage(watermarkLogo, x, y, logoW, logoH);
+      } else {
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 14px -apple-system, BlinkMacSystemFont, PingFang SC";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText("金十数据", width - pad.right - 2, height - pad.bottom - 8);
+      }
+      ctx.restore();
+    }
+
+    function normalizeDateKey(date) {
+      return String(date).replace(/\./g, "-");
+    }
+
+    function monthKey(date) {
+      return normalizeDateKey(date).slice(0, 7);
+    }
+
+    function monthIndexFromKey(key) {
+      const [year, month] = key.split("-").map(Number);
+      return year * 12 + month - 1;
+    }
+
+    function monthKeyFromIndex(index) {
+      const year = Math.floor(index / 12);
+      const month = index % 12 + 1;
+      return `${year}-${String(month).padStart(2, "0")}`;
+    }
+
+    function monthDateFromKey(key) {
+      return `${key}-01`;
+    }
+
+    function monthEndTime(key) {
+      const [year, month] = key.split("-").map(Number);
+      return new Date(year, month, 0, 23, 59, 59).getTime();
+    }
+
+    function dedupeDateRows(rows) {
+      const map = new Map();
+      rows.forEach(([date, value]) => {
+        if (Number.isFinite(Number(value))) {
+          map.set(normalizeDateKey(date), Number(value));
+        }
+      });
+      return Array.from(map.entries()).sort((a, b) => parseDateTime(a[0]) - parseDateTime(b[0]));
+    }
+
+    function dedupeMonthRows(rows) {
+      const map = new Map();
+      rows.forEach(([date, value]) => {
+        if (Number.isFinite(Number(value))) {
+          map.set(monthKey(date), Number(value));
+        }
+      });
+      return Array.from(map.entries())
+        .sort((a, b) => monthIndexFromKey(a[0]) - monthIndexFromKey(b[0]))
+        .map(([month, value]) => [monthDateFromKey(month), value]);
+    }
+
+    function buildMonthlyLevelRows(rows) {
+      const source = dedupeDateRows(rows);
+      if (!source.length) return [];
+      const startIndex = monthIndexFromKey(monthKey(source[0][0]));
+      const endIndex = monthIndexFromKey(monthKey(source.at(-1)[0]));
+      const monthly = [];
+      let cursor = 0;
+      let current = source[0][1];
+
+      for (let index = startIndex; index <= endIndex; index += 1) {
+        const key = monthKeyFromIndex(index);
+        const endTime = monthEndTime(key);
+        while (cursor < source.length && parseDateTime(source[cursor][0]) <= endTime) {
+          current = source[cursor][1];
+          cursor += 1;
+        }
+        monthly.push([monthDateFromKey(key), current]);
+      }
+      return monthly;
+    }
+
+    function buildMonthlyInterpolatedRows(rows) {
+      const anchors = dedupeMonthRows(rows);
+      if (!anchors.length) return [];
+      const startIndex = monthIndexFromKey(monthKey(anchors[0][0]));
+      const endIndex = monthIndexFromKey(monthKey(anchors.at(-1)[0]));
+      const byMonth = new Map(anchors.map(([date, value]) => [monthKey(date), value]));
+      const monthly = [];
+      let nextAnchorIndex = 1;
+
+      for (let index = startIndex; index <= endIndex; index += 1) {
+        const key = monthKeyFromIndex(index);
+        if (byMonth.has(key)) {
+          monthly.push([monthDateFromKey(key), byMonth.get(key)]);
+          continue;
+        }
+
+        while (
+          nextAnchorIndex < anchors.length &&
+          monthIndexFromKey(monthKey(anchors[nextAnchorIndex][0])) < index
+        ) {
+          nextAnchorIndex += 1;
+        }
+
+        const next = anchors[nextAnchorIndex];
+        const prev = anchors[nextAnchorIndex - 1] || anchors[0];
+        if (!prev || !next) {
+          monthly.push([monthDateFromKey(key), prev ? prev[1] : anchors[0][1]]);
+          continue;
+        }
+
+        const prevIndex = monthIndexFromKey(monthKey(prev[0]));
+        const nextIndex = monthIndexFromKey(monthKey(next[0]));
+        const ratio = (index - prevIndex) / Math.max(nextIndex - prevIndex, 1);
+        const value = prev[1] + (next[1] - prev[1]) * ratio;
+        monthly.push([monthDateFromKey(key), Number(value.toFixed(2))]);
+      }
+      return monthly;
+    }
+
+    function buildMacroMonthlyRows(key, rows) {
+      if (key === "rate") return buildMonthlyLevelRows(rows);
+      return buildMonthlyInterpolatedRows(rows);
+    }
+
+    function parseFredText(text) {
+      return text.split(/\r?\n/)
+        .map((line) => {
+          const match = line.trim().match(/^(\d{4}-\d{2}-\d{2})\s+(-?\d+(?:\.\d+)?)$/);
+          return match ? [match[1], Number(match[2])] : null;
+        })
+        .filter(Boolean);
+    }
+
+    function priceIndexToYoY(rows) {
+      const byMonth = new Map(dedupeMonthRows(rows).map(([date, value]) => [monthKey(date), value]));
+      return Array.from(byMonth.keys()).sort().map((month) => {
+        const index = monthIndexFromKey(month);
+        const priorMonth = monthKeyFromIndex(index - 12);
+        const current = byMonth.get(month);
+        const prior = byMonth.get(priorMonth);
+        if (!Number.isFinite(current) || !Number.isFinite(prior) || !prior) return null;
+        return [monthDateFromKey(month), Number((((current / prior) - 1) * 100).toFixed(2))];
+      }).filter(Boolean);
+    }
+
+    async function fetchOfficialFredSeries(url) {
+      const response = await fetch(`${url}.txt`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`FRED ${response.status}`);
+      return parseFredText(await response.text());
+    }
+
+    function applyOfficialMacroSeries(series, fromCache = false) {
+      if (!series || !series.rate || !series.cpi || !series.unemployment) return false;
+      window.MACRO_ACTUAL_DATA.series.rate = dedupeMonthRows(series.rate);
+      window.MACRO_ACTUAL_DATA.series.cpi = dedupeMonthRows(series.cpi);
+      window.MACRO_ACTUAL_DATA.series.unemployment = dedupeMonthRows(series.unemployment);
+      window.MACRO_ACTUAL_DATA.loadedOfficial = true;
+      window.MACRO_ACTUAL_DATA.loadedFromCache = fromCache;
+      Object.keys(rangeStates).forEach((key) => delete rangeStates[key]);
+      return true;
+    }
+
+    function loadOfficialMacroFromCache() {
+      try {
+        const cached = localStorage.getItem(officialMacroCacheKey);
+        if (!cached) return false;
+        return applyOfficialMacroSeries(JSON.parse(cached), true);
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function loadOfficialMacroData() {
+      const urls = window.MACRO_ACTUAL_DATA?.sourceUrls || {};
+      if (!urls.rate || !urls.cpi || !urls.unemployment) return;
+      try {
+        const [rate, pceIndex, unemployment] = await Promise.all([
+          fetchOfficialFredSeries(urls.rate),
+          fetchOfficialFredSeries(urls.cpi),
+          fetchOfficialFredSeries(urls.unemployment)
+        ]);
+        const series = {
+          rate: dedupeMonthRows(rate),
+          cpi: priceIndexToYoY(pceIndex),
+          unemployment: dedupeMonthRows(unemployment)
+        };
+        if (!series.rate.length || !series.cpi.length || !series.unemployment.length) return;
+        applyOfficialMacroSeries(series);
+        localStorage.setItem(officialMacroCacheKey, JSON.stringify(series));
+        render();
+      } catch (error) {
+        console.warn("Official FRED macro data failed to load; using embedded fallback.", error);
+      }
+    }
+
+    function getGlobalMacroRows(key) {
+      if (!macroKeys.has(key)) return [];
+      const localRows = window.MACRO_ACTUAL_DATA?.series?.[key] || [];
+      const powellRows = window.POWELL_CHART_DATA?.series?.[key] || [];
+      const rows = window.MACRO_ACTUAL_DATA?.loadedOfficial ? localRows : [...localRows, ...powellRows];
+      return window.MACRO_ACTUAL_DATA?.loadedOfficial
+        ? dedupeMonthRows(rows)
+        : buildMacroMonthlyRows(key, rows);
+    }
+
+    function getMacroRowsForTerm(id, key) {
+      if (!macroKeys.has(key)) return [];
+      const range = getTermRange(id);
+      const start = parseDateTime(range.start);
+      const end = parseDateTime(range.end);
+      const rows = getGlobalMacroRows(key);
+      const startMonth = monthKey(range.start);
+      const endMonth = monthKey(range.end);
+      const filtered = rows.filter(([date]) => {
+        const month = monthKey(date);
+        if (month >= startMonth && month <= endMonth) return true;
+        const time = parseDateTime(date);
+        return time >= start && time <= end;
+      });
+      if (filtered.length) return filtered;
+      const fallback = rows.filter(([date]) => parseDateTime(date) <= end).at(-1);
+      return fallback ? [fallback] : [];
+    }
+
+    function getSeriesSummary(id, key) {
+      const points = getSeriesPoints(id, key);
+      if (!points.length) return null;
+      const values = points.map((point) => point.value).filter(Number.isFinite);
+      if (!values.length) return null;
+      return {
+        startDate: points[0].date,
+        start: values[0],
+        endDate: points.at(-1).date,
+        end: values.at(-1),
+        min: Math.min(...values),
+        max: Math.max(...values),
+        avg: average(values),
+        count: values.length
+      };
+    }
+
+    function drawTooltip(ctx, chart, plottedSeries, width, height, pad) {
+      const state = tooltipStates[chart.key];
+      if (!state) return;
+
+      if (mode === "compare") {
+        const targetX = state.x;
+        const displayUnit = chart.market ? "%" : chart.unit;
+        const rows = plottedSeries.map((series) => {
+          if (!series.points.length) return null;
+          const point = series.points.reduce((best, item) => Math.abs(item.x - targetX) < Math.abs(best.x - targetX) ? item : best, series.points[0]);
+          return { series, point };
+        }).filter(Boolean);
+        if (!rows.length) return;
+        const anchor = rows[0].point;
+        const elapsedText = Number.isFinite(anchor.elapsedYears) ? "任期第" + Math.max(0, anchor.elapsedYears).toFixed(anchor.elapsedYears < 1 ? 1 : 0) + "年" : "任期对比";
+        const boxWidth = 134;
+        const boxHeight = 28 + rows.length * 18;
+        const boxX = clamp(targetX + 10, 6, width - boxWidth - 6);
+        const boxY = clamp(anchor.y - boxHeight / 2, pad.top, height - pad.bottom - boxHeight);
+
+        ctx.save();
+        ctx.strokeStyle = "rgba(31,101,214,.25)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(targetX, pad.top);
+        ctx.lineTo(targetX, height - pad.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        rows.forEach(({ series, point }) => drawMarkedPoint(ctx, point, series.color, 3.5));
+
+        ctx.shadowColor = "rgba(18,32,55,.13)";
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetY = 3;
+        drawRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 4);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.shadowColor = "transparent";
+        ctx.strokeStyle = "#dfe8f5";
+        ctx.stroke();
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#6b778b";
+        ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+        ctx.fillText(elapsedText, boxX + 10, boxY + 7);
+        rows.forEach(({ series, point }, index) => {
+          const y = boxY + 24 + index * 18;
+          ctx.fillStyle = series.color;
+          ctx.beginPath();
+          ctx.arc(boxX + 12, y + 6, 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#263044";
+          ctx.font = "11px -apple-system, BlinkMacSystemFont, PingFang SC";
+          ctx.fillText(series.name, boxX + 20, y);
+          ctx.fillStyle = series.color;
+          ctx.font = "bold 11px D-DIN-PRO, DIN Alternate, Arial Narrow";
+          ctx.textAlign = "right";
+          ctx.fillText(formatValue(point.value, displayUnit), boxX + boxWidth - 10, y);
+          ctx.textAlign = "left";
+        });
+        ctx.restore();
+        return;
+      }
+
+      if (chart.neutralRate && state.multi) {
+        const targetX = state.x;
+        const rows = plottedSeries.map((series) => {
+          if (!series.points.length) return null;
+          const point = series.points.reduce((best, item) => Math.abs(item.x - targetX) < Math.abs(best.x - targetX) ? item : best, series.points[0]);
+          return { series, point };
+        }).filter(Boolean);
+        if (!rows.length) return;
+        const anchor = rows[0].point;
+        const dateText = anchor.date ? formatDateMonth(anchor.date) : "利率";
+        const boxWidth = 150;
+        const boxHeight = 28 + rows.length * 18;
+        const boxX = clamp(targetX + 10, 6, width - boxWidth - 6);
+        const boxY = clamp(anchor.y - boxHeight / 2, pad.top, height - pad.bottom - boxHeight);
+
+        ctx.save();
+        ctx.strokeStyle = "rgba(31,101,214,.25)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(targetX, pad.top);
+        ctx.lineTo(targetX, height - pad.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        rows.forEach(({ series, point }) => drawMarkedPoint(ctx, point, series.color, 3.5));
+
+        ctx.shadowColor = "rgba(18,32,55,.13)";
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetY = 3;
+        drawRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 4);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.shadowColor = "transparent";
+        ctx.strokeStyle = "#dfe8f5";
+        ctx.stroke();
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#6b778b";
+        ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+        ctx.fillText(dateText, boxX + 10, boxY + 7);
+        rows.forEach(({ series, point }, index) => {
+          const y = boxY + 24 + index * 18;
+          ctx.fillStyle = series.color;
+          ctx.beginPath();
+          ctx.arc(boxX + 12, y + 6, 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#263044";
+          ctx.font = "11px -apple-system, BlinkMacSystemFont, PingFang SC";
+          ctx.fillText(series.name, boxX + 20, y);
+          ctx.fillStyle = series.color;
+          ctx.font = "bold 11px D-DIN-PRO, DIN Alternate, Arial Narrow";
+          ctx.textAlign = "right";
+          ctx.fillText(formatValue(point.rawValue ?? point.value, chart.unit), boxX + boxWidth - 10, y);
+          ctx.textAlign = "left";
+        });
+        ctx.restore();
+        return;
+      }
+
+      const series = plottedSeries[state.seriesIndex] || plottedSeries[0];
+      if (!series) return;
+      const point = series.points.find((item) => item.sourceIndex === state.sourceIndex) || series.points[0];
+      if (!point) return;
+      const macroMonthly = ["rate", "cpi", "unemployment"].includes(chart.key);
+      const dateText = point.date ? (macroMonthly ? formatDateMonth(point.date) : formatDateDot(point.date)) : "第" + (point.sourceIndex + 1) + "点";
+      const valueText = formatValue(point.rawValue ?? point.value, chart.unit);
+      const boxWidth = Math.max(94, Math.max(dateText.length, valueText.length) * 7 + 20);
+      const boxHeight = 42;
+      const boxX = clamp(point.x + 10, 6, width - boxWidth - 6);
+      const boxY = clamp(point.y - boxHeight - 12, pad.top, height - pad.bottom - boxHeight);
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(31,101,214,.25)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(point.x, pad.top);
+      ctx.lineTo(point.x, height - pad.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      drawMarkedPoint(ctx, point, series.color, 4);
+      ctx.shadowColor = "rgba(18,32,55,.13)";
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 3;
+      drawRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 4);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.shadowColor = "transparent";
+      ctx.strokeStyle = "#dfe8f5";
+      ctx.stroke();
+      ctx.fillStyle = "#6b778b";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "top";
+      ctx.textAlign = "left";
+      ctx.fillText(dateText, boxX + 10, boxY + 7);
+      ctx.fillStyle = series.color;
+      ctx.font = "bold 12px D-DIN-PRO, DIN Alternate, Arial Narrow";
+      ctx.fillText(valueText, boxX + 10, boxY + 23);
+      ctx.restore();
+    }
+
+    function getWorkbookRows(key) {
+      return window.POWELL_CHART_DATA && window.POWELL_CHART_DATA.series
+        ? window.POWELL_CHART_DATA.series[key]
+        : null;
+    }
+
+    function getWorkbookSummary(key) {
+      return window.POWELL_CHART_DATA && window.POWELL_CHART_DATA.summary
+        ? window.POWELL_CHART_DATA.summary[key]
+        : null;
+    }
+
+    function getSeriesPoints(id, key) {
+      const macroRows = getMacroRowsForTerm(id, key);
+      if (macroRows.length) {
+        return macroRows.map(([date, value], index) => ({ date, index, value }));
+      }
+      const workbookRows = id === "powell" ? getWorkbookRows(key) : null;
+      if (workbookRows && workbookRows.length) {
+        return workbookRows.map(([date, value], index) => ({ date, index, value }));
+      }
+      const values = byId(id).series[key] || [];
+      return values.map((value, index) => ({ index, value }));
+    }
+
+    function getSeriesValues(id, key) {
+      return getSeriesPoints(id, key).map((point) => point.value);
+    }
+
+    function getNeutralRatePointsForTerm(id) {
+      const rows = (window.NEUTRAL_RATE_DATA?.series || [])
+        .map(([date, value], index) => ({ date, value: Number(value), time: parseDateTime(date), index }))
+        .filter((point) => Number.isFinite(point.value) && Number.isFinite(point.time))
+        .sort((a, b) => a.time - b.time);
+      if (!rows.length) return [];
+      const range = getTermRange(id);
+      const startTime = parseDateTime(range.start);
+      const endTime = parseDateTime(range.end);
+      const inRange = rows.filter((point) => point.time >= startTime && point.time <= endTime);
+      const previous = rows.filter((point) => point.time <= startTime).at(-1);
+      const lastKnown = inRange.at(-1) || previous;
+      const points = [];
+      if (previous) points.push({ date: range.start, value: previous.value, index: -1 });
+      inRange.forEach((point) => points.push({ date: point.date, value: point.value, index: point.index }));
+      if (lastKnown && (!points.length || points.at(-1).date !== range.end)) {
+        points.push({ date: range.end, value: lastKnown.value, index: rows.length });
+      }
+      return points;
+    }
+
+    function getChartHeadline(chairman, chart) {
+      const summary = getSeriesSummary(chairman.id, chart.key) || (chairman.id === "powell" ? getWorkbookSummary(chart.key) : null);
+      if (chart.key === "cpi" || chart.key === "unemployment") {
+        return summary ? `峰值 ${formatValue(summary.max, "%")}` : formatHeadline(chairman, chart.key);
+      }
+      if (!summary) return formatHeadline(chairman, chart.key);
+
+      if (chart.key === "rate") {
+        const bp = Math.round((summary.end - summary.start) * 100);
+        if (bp === 0) return "未有利率变动";
+        return `${bp >= 0 ? "任内加息" : "任内降息"} ${Math.abs(bp)}bp`;
+      }
+      if (chart.key === "cpi") return `峰值 ${formatValue(summary.max, "%")}`;
+      if (chart.key === "unemployment") return `峰值 ${formatValue(summary.max, "%")}`;
+      if (chart.market) {
+        const pct = ((summary.end / summary.start) - 1) * 100;
+        return `任内 ${pct >= 0 ? "+" : ""}${pct.toFixed(Math.abs(pct) >= 100 ? 0 : 1)}%`;
+      }
+      return formatHeadline(chairman, chart.key);
+    }
+
+    function formatValue(value, unit) {
+      if (unit === "%") return `${Number(value).toFixed(value < 10 ? 1 : 0)}%`;
+      return Number(value).toLocaleString("en-US", { maximumFractionDigits: value < 100 ? 1 : 0 });
+    }
+
+    function toneClass(text) {
+      if (isZeroMoveText(text)) return "gray";
+      return text.includes("-") || text.includes("降息") ? "green" : isDirectionalText(text) ? "red" : "blue";
+    }
+
+    function normalize(values) {
+      const first = values[0] || 1;
+      return values.map((value) => Number(((value / first) * 100).toFixed(1)));
+    }
+
+    function performanceSeries(values) {
+      const first = values[0] || 1;
+      return values.map((value) => Number((((value / first) - 1) * 100).toFixed(2)));
+    }
+
+    function average(values) {
+      const valid = values.filter((value) => Number.isFinite(value));
+      if (!valid.length) return 0;
+      return valid.reduce((sum, value) => sum + value, 0) / valid.length;
+    }
+
+    function formatAverage(id, key) {
+      return `均值 ${formatValue(average(getSeriesValues(id, key)), "%")}`;
+    }
+
+    function formatRateMove(id) {
+      const values = getSeriesValues(id, "rate");
+      if (values.length < 2) return "未变动";
+      const bp = Math.round((values.at(-1) - values[0]) * 100);
+      if (bp === 0) return "未变动";
+      return `${bp > 0 ? "+" : "-"}${Math.abs(bp)}bp`;
+    }
+
+    function formatMarketMove(id, key) {
+      const values = getSeriesValues(id, key);
+      if (values.length < 2 || !values[0]) return "--";
+      const pct = ((values.at(-1) / values[0]) - 1) * 100;
+      const digits = Math.abs(pct) >= 100 ? 0 : 1;
+      return `${pct >= 0 ? "+" : ""}${pct.toFixed(digits)}%`;
+    }
+
+    function elapsedYearsFromPoint(id, point, index, total) {
+      const range = getTermRange(id);
+      const start = parseDateTime(range.start);
+      const time = point.date ? parseDateTime(point.date) : interpolateDate(range.start, range.end, index, total);
+      return Math.max(0, (time - start) / (365.25 * 24 * 60 * 60 * 1000));
+    }
+
+    function buildElapsedTicks(minYear, maxYear) {
+      const candidates = [1, 3, 5, 7, 9, 10, 12, 15, 18, 20];
+      const ticks = candidates.filter((year) => year >= minYear - .05 && year <= maxYear + .05);
+      if (!ticks.length && maxYear > 0) ticks.push(Math.max(1, Math.round(maxYear)));
+      return ticks;
+    }
+
+    function init() {
+      loadOfficialMacroFromCache();
+      $("#heroModeTrigger").addEventListener("click", () => {
+        draftMode = mode;
+        draftChairId = currentId;
+        modePickerOpen = true;
+        renderModePicker();
+      });
+      $("#modePickerMask").addEventListener("click", closeModePicker);
+      $("#modePickerCancel").addEventListener("click", closeModePicker);
+      $("#modePickerConfirm").addEventListener("click", () => {
+        mode = draftMode;
+        if (mode === "single") currentId = draftChairId;
+        comparePickerOpen = false;
+        modePickerOpen = false;
+        render();
+      });
+
+      $("#comparePickerTrigger").addEventListener("click", () => {
+        draftCompareIds = [...compareIds];
+        comparePickerOpen = true;
+        renderComparePicker();
+      });
+      $("#comparePickerMask").addEventListener("click", () => {
+        comparePickerOpen = false;
+        renderComparePicker();
+      });
+      $("#comparePickerClose").addEventListener("click", () => {
+        comparePickerOpen = false;
+        renderComparePicker();
+      });
+      $("#comparePickerConfirm").addEventListener("click", () => {
+        compareIds = [...draftCompareIds];
+        comparePickerOpen = false;
+        renderComparePicker();
+        renderCompareRows();
+        renderCharts();
+        requestAnimationFrame(() => {
+          bindHistoricalRateTooltip();
+          drawHistoricalRateChart();
+        });
+      });
+
+      renderComparePicker();
+      render();
+      loadOfficialMacroData();
+    }
+
+    function render() {
+      const app = $("#app");
+      app.classList.toggle("is-compare", mode === "compare");
+      app.classList.toggle("is-picker-open", mode === "compare" && comparePickerOpen);
+      app.classList.toggle("is-mode-picker-open", modePickerOpen);
+      $("#heroModeTrigger").textContent = mode === "single" ? `单人模式-${byId(currentId).shortName}` : "对比模式";
+
+      const chairman = byId(currentId);
+      const range = getTermRange(currentId);
+      const avatar = avatarMap[currentId];
+      if (mode === "compare") {
+        $("#scoreAvatar").classList.remove("has-image");
+        $("#scoreAvatarImg").removeAttribute("src");
+        $("#scoreAvatarImg").removeAttribute("style");
+        $("#scoreAvatarText").textContent = "比";
+        $("#scoreChairName").textContent = "多任主席对比";
+        $("#scoreTerm").textContent = `任期：${compareIds.map((id) => byId(id).shortName).join("、")}`;
+      } else {
+        $("#scoreAvatar").classList.toggle("has-image", Boolean(avatar));
+        if (avatar) {
+          $("#scoreAvatarImg").src = avatar;
+          $("#scoreAvatarImg").alt = chairman.name;
+          $("#scoreAvatarImg").style.cssText = avatarStyles[currentId] || "";
+        } else {
+          $("#scoreAvatarImg").removeAttribute("src");
+          $("#scoreAvatarImg").removeAttribute("style");
+        }
+        $("#scoreAvatarText").textContent = chairman.shortName.slice(0, 1);
+        $("#scoreChairName").textContent = `${chairman.name}任内成绩单`;
+        $("#scoreTerm").textContent = `任期：${formatDateDot(range.start)}-${formatDateDot(range.end)}`;
+      }
+
+      renderComparePicker();
+      renderModePicker();
+      renderCompareRows();
+      renderCharts();
+      if (mode === "compare") requestAnimationFrame(() => {
+        bindHistoricalRateTooltip();
+        drawHistoricalRateChart();
+      });
+    }
+
+    function closeModePicker() {
+      modePickerOpen = false;
+      renderModePicker();
+    }
+
+    function renderModePicker() {
+      $("#app").classList.toggle("is-mode-picker-open", modePickerOpen);
+      $("#modePickerColumns").classList.toggle("is-compare-mode", draftMode === "compare");
+      const modeOptions = [
+        { value: "single", label: "单人模式" },
+        { value: "compare", label: "对比模式" }
+      ];
+      $("#modePickerModes").innerHTML = modeOptions.map((item) => `
+        <button class="mode-option ${draftMode === item.value ? "is-active" : ""}" type="button" data-mode="${item.value}">${item.label}</button>
+      `).join("");
+      $("#modePickerChairs").innerHTML = draftMode === "compare" ? "" : chairmen.slice().reverse().map((item) => `
+        <button class="chair-option ${draftChairId === item.id ? "is-active" : ""}" type="button" data-chair="${item.id}">${item.shortName}</button>
+      `).join("");
+
+      $("#modePickerModes").querySelectorAll("[data-mode]").forEach((button) => {
+        button.addEventListener("click", () => {
+          draftMode = button.dataset.mode;
+          renderModePicker();
+        });
+      });
+      $("#modePickerChairs").querySelectorAll("[data-chair]").forEach((button) => {
+        button.addEventListener("click", () => {
+          draftChairId = button.dataset.chair;
+          if (draftMode !== "single") draftMode = "single";
+          renderModePicker();
+        });
+      });
+      if (modePickerOpen) requestAnimationFrame(centerModePickerSelection);
+    }
+
+    function centerModePickerSelection() {
+      [
+        ["#modePickerModes", ".mode-option.is-active"],
+        ["#modePickerChairs", ".chair-option.is-active"]
+      ].forEach(([containerSelector, activeSelector]) => {
+        const container = $(containerSelector);
+        const active = container?.querySelector(activeSelector);
+        if (!container || !active) return;
+        const target = active.offsetTop - (container.clientHeight - active.offsetHeight) / 2;
+        container.scrollTop = Math.max(0, target);
+      });
+    }
+
+    function renderComparePicker() {
+      $("#app").classList.toggle("is-picker-open", mode === "compare" && comparePickerOpen);
+      const activeIds = comparePickerOpen ? draftCompareIds : compareIds;
+      $("#compareCount").textContent = `已选${activeIds.length}个`;
+      $("#comparePicker").innerHTML = chairmen.map((item, index) => {
+        return `
+          <label class="check-pill">
+            <span>${item.shortName}</span>
+            <input type="checkbox" value="${item.id}" ${activeIds.includes(item.id) ? "checked" : ""} />
+          </label>
+        `;
+      }).join("");
+
+      $("#comparePicker").querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const id = event.target.value;
+          if (event.target.checked) {
+            draftCompareIds = [...new Set([...draftCompareIds, id])];
+          } else {
+            if (draftCompareIds.length === 1) {
+              event.target.checked = true;
+              return;
+            }
+            draftCompareIds = draftCompareIds.filter((item) => item !== id);
+          }
+          renderComparePicker();
+        });
+      });
+    }
+
+    function sortIcon(column) {
+      const active = compareSort.key === column.key;
+      const direction = active ? compareSort.direction : "";
+      return `
+        <button class="sort-btn ${active ? "is-active is-" + direction : ""}" type="button" data-sort="${column.key}" aria-label="${column.label}排序">
+          <svg class="sort-icon" viewBox="0 0 12 12" aria-hidden="true">
+            <path class="sort-up" d="M6 2 3 5h6L6 2Z"></path>
+            <path class="sort-down" d="M6 10 3 7h6l-3 3Z"></path>
+          </svg>
+        </button>
+      `;
+    }
+
+    function renderCompareHeader() {
+      $("#compareHeader").innerHTML = compareColumns.map((column) => `
+        <th>
+          <span class="th-content">
+            <span>${column.label}</span>
+            ${column.sortable ? sortIcon(column) : ""}
+          </span>
+        </th>
+      `).join("");
+      $("#compareHeader").querySelectorAll("[data-sort]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.sort;
+          compareSort = compareSort.key === key
+            ? { key, direction: compareSort.direction === "desc" ? "asc" : "desc" }
+            : { key, direction: "desc" };
+          renderCompareRows();
+        });
+      });
+    }
+
+    function rateMoveData(id) {
+      const values = getSeriesValues(id, "rate");
+      if (values.length < 2) return { value: 0, label: "未变动" };
+      const value = Math.round((values.at(-1) - values[0]) * 100);
+      return { value, label: value === 0 ? "未变动" : `${value > 0 ? "+" : "-"}${Math.abs(value)}bp` };
+    }
+
+    function marketMoveData(id, key) {
+      const values = getSeriesValues(id, key);
+      if (values.length < 2 || !values[0]) return { value: null, label: "--" };
+      const value = ((values.at(-1) / values[0]) - 1) * 100;
+      const digits = Math.abs(value) >= 100 ? 0 : 1;
+      return { value, label: `${value >= 0 ? "+" : ""}${value.toFixed(digits)}%` };
+    }
+
+    function getCompareRowData(id, order) {
+      const cpiAvg = average(getSeriesValues(id, "cpi"));
+      const jobAvg = average(getSeriesValues(id, "unemployment"));
+      const rate = rateMoveData(id);
+      const gold = marketMoveData(id, "gold");
+      const wti = marketMoveData(id, "wti");
+      const dxy = marketMoveData(id, "dxy");
+      const spx = marketMoveData(id, "spx");
+      return {
+        id,
+        order,
+        chairman: byId(id),
+        sortValues: {
+          rate: rate.value,
+          cpi: cpiAvg,
+          unemployment: jobAvg,
+          gold: gold.value,
+          wti: wti.value,
+          dxy: dxy.value,
+          spx: spx.value
+        },
+        labels: {
+          rate: rate.label,
+          cpi: formatValue(cpiAvg, "%"),
+          unemployment: formatValue(jobAvg, "%"),
+          gold: gold.label,
+          wti: wti.label,
+          dxy: dxy.label,
+          spx: spx.label
+        }
+      };
+    }
+
+    function sortedCompareRows() {
+      const rows = compareIds.map(getCompareRowData);
+      if (!compareSort.key) return rows;
+      const direction = compareSort.direction === "asc" ? 1 : -1;
+      return rows.sort((a, b) => {
+        const av = a.sortValues[compareSort.key];
+        const bv = b.sortValues[compareSort.key];
+        const aMissing = !Number.isFinite(av);
+        const bMissing = !Number.isFinite(bv);
+        if (aMissing && bMissing) return a.order - b.order;
+        if (aMissing) return 1;
+        if (bMissing) return -1;
+        return (av - bv) * direction || a.order - b.order;
+      });
+    }
+
+    function renderCompareRows() {
+      renderCompareHeader();
+      $("#compareRows").innerHTML = sortedCompareRows().map((row) => {
+        return `
+          <tr>
+            <td>${row.chairman.shortName}</td>
+            <td class="${toneClass(row.labels.rate)}">${row.labels.rate}</td>
+            <td>${row.labels.cpi}</td>
+            <td>${row.labels.unemployment}</td>
+            <td class="${toneClass(row.labels.gold)}">${row.labels.gold}</td>
+            <td class="${toneClass(row.labels.wti)}">${row.labels.wti}</td>
+            <td class="${toneClass(row.labels.dxy)}">${row.labels.dxy}</td>
+            <td class="${toneClass(row.labels.spx)}">${row.labels.spx}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderCharts() {
+      const container = $("#charts");
+      container.innerHTML = charts.map((chart) => {
+        const chairman = byId(currentId);
+        const range = getTermRange(currentId);
+        const headline = getChartHeadline(chairman, chart);
+        const meta = mode === "compare" && chart.market ? "任期内累计涨跌幅(%)" : chart.meta;
+        const guideLegends = mode !== "compare" ? [
+          ...(chart.neutralRate ? [
+            { type: "swatch", label: "联邦基金利率上限", color: fedBlue },
+            { type: "line", label: "目标中性利率" }
+          ] : []),
+          ...(chart.guideLines || []).filter((line) => line.legend).map((line) => ({ type: "line", label: line.label })),
+          ...(chart.guideBand ? [{ type: "band", label: chart.guideBand.label }] : [])
+        ] : [];
+        return `
+          <article class="chart-card">
+            <div class="chart-head">
+              <div class="chart-title-wrap">
+                <div class="chart-title">${chart.title}</div>
+              </div>
+              ${mode === "compare" ? (meta ? `<div class="chart-meta">${meta}</div>` : "") : `<div class="chart-stat" style="color:${statColor(headline)}">${headline}</div>`}
+            </div>
+            ${guideLegends.length ? `<div class="chart-guide-row">${guideLegends.map((item) => `<div class="chart-guide-legend ${item.type === "line" ? "is-line" : ""}"><i ${item.color ? `style="background:${item.color}"` : ""}></i>${item.label}</div>`).join("")}</div>` : ""}
+            ${mode === "compare" ? `<div class="legend">${compareIds.map((id, index) => `<span class="legend-item"><i class="legend-line" style="background:${chairColor(id)}"></i>${byId(id).shortName}</span>`).join("")}</div>` : ""}
+            <canvas class="chart" id="chart-${chart.key}" width="680" height="460"></canvas>
+            <canvas class="range-chart" id="range-${chart.key}" width="680" height="76"></canvas>
+          </article>
+        `;
+      }).join("");
+
+      requestAnimationFrame(() => charts.forEach((chart) => {
+        bindChartTooltip(chart);
+        bindRangeInteraction(chart);
+        drawChart(chart);
+        drawRangeChart(chart);
+      }));
+    }
+
+    function getCanvasPoint(event, canvas) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+    }
+
+    function bindChartTooltip(chart) {
+      const canvas = document.getElementById(`chart-${chart.key}`);
+      if (!canvas) return;
+      canvas.onpointerdown = (event) => {
+        const position = getCanvasPoint(event, canvas);
+        const plottedSeries = chartPointCache[chart.key] || [];
+        let best = null;
+        plottedSeries.forEach((series, seriesIndex) => {
+          series.points.forEach((point) => {
+            const distance = Math.abs(point.x - position.x) + Math.abs(point.y - position.y) * .35;
+            if (!best || distance < best.distance) {
+              best = { distance, seriesIndex, sourceIndex: point.sourceIndex, x: point.x };
+            }
+          });
+        });
+        if (!best) return;
+        tooltipStates[chart.key] = mode === "compare"
+          ? { x: best.x }
+          : chart.neutralRate
+            ? { x: best.x, multi: true }
+            : best;
+        drawChart(chart);
+      };
+    }
+
+    function bindRangeInteraction(chart) {
+      const canvas = document.getElementById(`range-${chart.key}`);
+      if (!canvas) return;
+      canvas.onpointerdown = (event) => {
+        event.preventDefault();
+        const position = getCanvasPoint(event, canvas);
+        const state = getRangeState(chart.key);
+        const ratio = clamp(position.x / Math.max(position.width, 1), 0, 1);
+        const handleHit = 14 / Math.max(position.width, 1);
+        let dragType = "move";
+        if (Math.abs(ratio - state.start) <= handleHit) dragType = "start";
+        else if (Math.abs(ratio - state.end) <= handleHit) dragType = "end";
+        else if (ratio < state.start || ratio > state.end) {
+          const width = state.end - state.start;
+          const start = clamp(ratio - width / 2, 0, 1 - width);
+          setRangeState(chart.key, { start, end: start + width });
+        }
+        activeRangeDrag = {
+          key: chart.key,
+          type: dragType,
+          startRatio: ratio,
+          stateStart: getRangeState(chart.key).start,
+          stateEnd: getRangeState(chart.key).end,
+          width: position.width,
+          pointerId: event.pointerId
+        };
+        canvas.setPointerCapture?.(event.pointerId);
+        tooltipStates[chart.key] = null;
+        drawChart(chart);
+        drawRangeChart(chart);
+      };
+
+      canvas.onpointermove = (event) => {
+        if (!activeRangeDrag || activeRangeDrag.key !== chart.key) return;
+        event.preventDefault();
+        const position = getCanvasPoint(event, canvas);
+        const delta = (position.x / Math.max(position.width, 1)) - activeRangeDrag.startRatio;
+        const span = activeRangeDrag.stateEnd - activeRangeDrag.stateStart;
+        if (activeRangeDrag.type === "start") {
+          setRangeState(chart.key, {
+            start: activeRangeDrag.stateStart + delta,
+            end: activeRangeDrag.stateEnd,
+            anchor: "end"
+          });
+        } else if (activeRangeDrag.type === "end") {
+          setRangeState(chart.key, {
+            start: activeRangeDrag.stateStart,
+            end: activeRangeDrag.stateEnd + delta,
+            anchor: "start"
+          });
+        } else {
+          const start = clamp(activeRangeDrag.stateStart + delta, 0, 1 - span);
+          setRangeState(chart.key, { start, end: start + span });
+        }
+        drawChart(chart);
+        drawRangeChart(chart);
+      };
+
+      const stopDrag = (event) => {
+        if (!activeRangeDrag || activeRangeDrag.key !== chart.key) return;
+        canvas.releasePointerCapture?.(event.pointerId);
+        activeRangeDrag = null;
+      };
+      canvas.onpointerup = stopDrag;
+      canvas.onpointercancel = stopDrag;
+      canvas.onlostpointercapture = () => {
+        if (activeRangeDrag?.key === chart.key) activeRangeDrag = null;
+      };
+    }
+
+    function drawChart(chart) {
+      const canvas = document.getElementById(`chart-${chart.key}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const width = rect.width || 340;
+      const height = rect.height || 180;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const pad = { top: 18, right: 12, bottom: 30, left: 40 };
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
+      const series = mode === "compare"
+        ? compareIds.map((id, index) => {
+          const rawPoints = getSeriesPoints(id, chart.key);
+          const rawValues = rawPoints.map((point) => point.value);
+          const drawValues = chart.market ? performanceSeries(rawValues) : rawValues;
+          const points = rawPoints.map((point, pointIndex) => ({
+            ...point,
+            sourceIndex: point.index ?? pointIndex,
+            elapsedYears: elapsedYearsFromPoint(id, point, pointIndex, rawPoints.length),
+            value: drawValues[pointIndex],
+            rawValue: rawValues[pointIndex]
+          }));
+          const visiblePoints = filterPointsByRange(points, chart.key);
+          return {
+            color: chairColor(id),
+            name: byId(id).shortName,
+            points: visiblePoints,
+            values: visiblePoints.map((point) => point.value)
+          };
+        })
+        : (() => {
+          const points = getSeriesPoints(currentId, chart.key).map((point) => ({
+            ...point,
+            sourceIndex: point.index,
+            rawValue: point.value
+          }));
+          const visiblePoints = filterPointsByRange(points, chart.key);
+          if (chart.neutralRate) {
+            const neutralPoints = getNeutralRatePointsForTerm(currentId).map((point, index) => ({
+              ...point,
+              sourceIndex: `neutral-${index}`,
+              rawValue: point.value
+            }));
+            const visibleNeutralPoints = filterPointsByRange(neutralPoints, chart.key);
+            return [
+              {
+                color: chart.color,
+                name: "联邦基金利率上限",
+                points: visiblePoints,
+                values: visiblePoints.map((point) => point.value),
+                showMarkers: true,
+                showLabels: true
+              },
+              {
+                color: neutralRateRed,
+                name: "目标中性利率",
+                points: visibleNeutralPoints,
+                values: visibleNeutralPoints.map((point) => point.value),
+                dash: [4, 4],
+                lineWidth: 1,
+                lineCap: "butt",
+                showMarkers: false,
+                showLabels: false
+              }
+            ].filter((item) => item.points.length);
+          }
+          return [{
+            color: chart.color,
+            name: chart.title,
+            points: visiblePoints,
+            values: visiblePoints.map((point) => point.value),
+            area: true
+          }];
+        })();
+      const values = series.flatMap((item) => item.values);
+      if (!values.length) return;
+      const axisUnit = mode === "compare" && chart.market ? "%" : chart.unit;
+      const scale = buildNiceScale(values, { ...chart, unit: axisUnit });
+      const min = scale.min;
+      const max = scale.max;
+      const primaryPoints = series[0].points || [];
+      const compareElapsedValues = series.flatMap((item) => item.points.map((point) => point.elapsedYears).filter(Number.isFinite));
+      const elapsedMin = mode === "compare" && compareElapsedValues.length ? Math.min(...compareElapsedValues) : 0;
+      const elapsedMax = mode === "compare" && compareElapsedValues.length ? Math.max(...compareElapsedValues) : 0;
+      const firstDate = primaryPoints.find((point) => point.date)?.date || getTermRange(currentId).start;
+      const lastDate = [...primaryPoints].reverse().find((point) => point.date)?.date || getTermRange(currentId).end;
+      const yearTicks = mode === "compare" ? [] : buildYearTicksForWidth(firstDate, lastDate, plotW, 42);
+      const firstTime = parseDateTime(firstDate);
+      const lastTime = parseDateTime(lastDate);
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = "#edf2f8";
+      ctx.lineWidth = 1;
+      ctx.fillStyle = "#8a96a8";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+
+      scale.ticks.forEach((tick) => {
+        const y = pad.top + plotH - ((tick - min) / (max - min || 1)) * plotH;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        ctx.fillText(formatAxisLabel(tick, axisUnit), 6, y);
+      });
+      drawGuideLines(ctx, chart, width, pad, plotH, min, max);
+
+      ctx.strokeStyle = "#edf2f8";
+      ctx.beginPath();
+      ctx.moveTo(pad.left, height - pad.bottom);
+      ctx.lineTo(width - pad.right, height - pad.bottom);
+      ctx.stroke();
+
+      const plottedSeries = [];
+      const deferredHighlights = [];
+      series.forEach((item, seriesIndex) => {
+        const dated = mode !== "compare" && item.points.length > 1 && item.points.every((point) => point.date);
+        const startTime = dated ? new Date(item.points[0].date).getTime() : 0;
+        const endTime = dated ? new Date(item.points[item.points.length - 1].date).getTime() : 0;
+        const points = item.points.map((point, index) => {
+          const xRatio = mode === "compare"
+            ? (point.elapsedYears - elapsedMin) / Math.max(elapsedMax - elapsedMin, 1)
+            : dated && lastTime > firstTime
+              ? (new Date(point.date).getTime() - firstTime) / (lastTime - firstTime)
+              : index / Math.max(item.points.length - 1, 1);
+          return {
+            x: pad.left + plotW * xRatio,
+            y: pad.top + plotH - (point.value - min) / (max - min || 1) * plotH,
+            value: point.value,
+            rawValue: point.rawValue,
+            date: point.date,
+            sourceIndex: point.sourceIndex
+          };
+        });
+        plottedSeries.push({ color: item.color, name: item.name, points });
+
+        if (item.area && points.length > 1) {
+          const gradient = ctx.createLinearGradient(0, pad.top, 0, height - pad.bottom);
+          gradient.addColorStop(0, item.color + "26");
+          gradient.addColorStop(1, item.color + "00");
+          ctx.beginPath();
+          ctx.moveTo(points[0].x, height - pad.bottom);
+          points.forEach((point) => ctx.lineTo(point.x, point.y));
+          ctx.lineTo(points.at(-1).x, height - pad.bottom);
+          ctx.closePath();
+          ctx.fillStyle = gradient;
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        points.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+        ctx.strokeStyle = item.color;
+        ctx.lineWidth = item.lineWidth || (mode === "compare" ? 1.8 : 2.4);
+        ctx.lineJoin = "round";
+        ctx.lineCap = item.lineCap || "round";
+        ctx.setLineDash(item.dash || []);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        const last = points.at(-1);
+        if (mode === "single" && points.length > 1 && item.showLabels !== false) {
+          const first = points[0];
+          const startLabel = formatValue(first.rawValue, chart.unit);
+          const endLabel = formatValue(last.rawValue, chart.unit);
+          const second = points[1];
+          const prev = points[points.length - 2];
+          const startOffset = second && second.y < first.y ? 18 : -18;
+          const endOffset = prev && last.y < prev.y ? -18 : 18;
+          const labelMinY = pad.top + 10;
+          const labelMaxY = height - pad.bottom - 10;
+
+          deferredHighlights.push(() => {
+            drawMarkedPoint(ctx, first, item.color, 3.2);
+            drawMarkedPoint(ctx, last, item.color, 3.4);
+            ctx.fillStyle = item.color;
+            ctx.font = "bold 12px D-DIN-PRO, DIN Alternate, Arial Narrow";
+            ctx.textBaseline = "bottom";
+            drawLabel(ctx, startLabel, first.x + 5, clamp(first.y + startOffset, labelMinY, labelMaxY), {
+              color: item.color,
+              align: "left",
+              canvasWidth: width,
+              canvasHeight: height
+            });
+            drawLabel(ctx, endLabel, last.x - 5, clamp(last.y + endOffset, labelMinY, labelMaxY), {
+              color: item.color,
+              align: "right",
+              canvasWidth: width,
+              canvasHeight: height
+            });
+          });
+        } else if (last && mode !== "compare" && item.showMarkers !== false) {
+          deferredHighlights.push(() => drawMarkedPoint(ctx, last, item.color, 3.4));
+        }
+      });
+      chartPointCache[chart.key] = plottedSeries;
+
+      ctx.fillStyle = "#66748a";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "bottom";
+      if (mode === "compare") {
+        buildElapsedTicks(elapsedMin, elapsedMax).forEach((year) => {
+          const ratio = (year - elapsedMin) / Math.max(elapsedMax - elapsedMin, 1);
+          const x = pad.left + plotW * Math.max(0, Math.min(1, ratio));
+          ctx.textAlign = ratio <= 0.05 ? "left" : ratio >= 0.95 ? "right" : "center";
+          ctx.fillText(String(year) + "年", x, height - 9);
+        });
+      } else {
+        yearTicks.forEach((year) => {
+          const ratio = (new Date(Number(year), 0, 1).getTime() - firstTime) / Math.max(lastTime - firstTime, 1);
+          const x = pad.left + plotW * Math.max(0, Math.min(1, ratio));
+          ctx.textAlign = ratio <= 0.05 ? "left" : ratio >= 0.95 ? "right" : "center";
+          ctx.fillText(year, clamp(x, 6, width - 6), height - 9);
+        });
+      }
+      drawWatermark(ctx, width, height, pad);
+      deferredHighlights.forEach((draw) => draw());
+      drawTooltip(ctx, chart, plottedSeries, width, height, pad);
+    }
+
+    function getHistoricalRatePoints() {
+      const points = [];
+      chairmen.forEach((chairman) => {
+        const rows = getSeriesPoints(chairman.id, "rate");
+        const range = getTermRange(chairman.id);
+        rows.forEach((point, index) => {
+          const time = point.date ? parseDateTime(point.date) : interpolateDate(range.start, range.end, index, rows.length);
+          points.push({ time, value: point.value, chairmanId: chairman.id, name: chairman.shortName });
+        });
+      });
+      return points.sort((a, b) => a.time - b.time);
+    }
+
+    function drawHistoricalRateTooltip(ctx, width, height, pad) {
+      if (!historicalRateTooltip || !historicalRatePointCache.length) return;
+      const target = historicalRatePointCache.reduce((best, point) => Math.abs(point.x - historicalRateTooltip.x) < Math.abs(best.x - historicalRateTooltip.x) ? point : best, historicalRatePointCache[0]);
+      const boxWidth = 118;
+      const boxHeight = 48;
+      const boxX = clamp(target.x + 10, 6, width - boxWidth - 6);
+      const boxY = clamp(target.y - boxHeight - 10, pad.top, height - pad.bottom - boxHeight);
+      ctx.save();
+      ctx.strokeStyle = "rgba(31,101,214,.25)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(target.x, pad.top);
+      ctx.lineTo(target.x, height - pad.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      drawMarkedPoint(ctx, target, target.color, 4);
+      ctx.shadowColor = "rgba(18,32,55,.13)";
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 3;
+      drawRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 4);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.shadowColor = "transparent";
+      ctx.strokeStyle = "#dfe8f5";
+      ctx.stroke();
+      ctx.fillStyle = "#6b778b";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "top";
+      ctx.textAlign = "left";
+      ctx.fillText(target.month, boxX + 10, boxY + 7);
+      ctx.fillStyle = target.color;
+      ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.fillText(target.name + " " + formatValue(target.value, "%"), boxX + 10, boxY + 25);
+      ctx.restore();
+    }
+
+    function bindHistoricalRateTooltip() {
+      const canvas = document.getElementById("historicalRateChart");
+      if (!canvas) return;
+      canvas.onpointerdown = (event) => {
+        const pos = getCanvasPoint(event, canvas);
+        historicalRateTooltip = { x: pos.x };
+        drawHistoricalRateChart();
+      };
+    }
+
+    function drawHistoricalRateChart() {
+      const canvas = document.getElementById("historicalRateChart");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const width = rect.width || 340;
+      const height = rect.height || 178;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const points = getHistoricalRatePoints();
+      if (!points.length) return;
+      const minTime = points[0].time;
+      const maxTime = points[points.length - 1].time;
+      const values = points.map((point) => point.value);
+      const scale = buildNiceScale(values, { unit: "%" });
+      const pad = { top: 16, right: 8, bottom: 24, left: 34 };
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
+      const xOf = (time) => pad.left + ((time - minTime) / (maxTime - minTime || 1)) * plotW;
+      const yOf = (value) => pad.top + plotH - ((value - scale.min) / (scale.max - scale.min || 1)) * plotH;
+      historicalRatePointCache = [];
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, width, height);
+
+      chairmen.forEach((chairman, index) => {
+        const range = getTermRange(chairman.id);
+        const x1 = clamp(xOf(parseDateTime(range.start)), pad.left, width - pad.right);
+        const x2 = clamp(xOf(parseDateTime(range.end)), pad.left, width - pad.right);
+        if (x2 <= pad.left || x1 >= width - pad.right) return;
+        ctx.fillStyle = chairTermColors[index % chairTermColors.length];
+        ctx.fillRect(x1, pad.top, Math.max(1, x2 - x1), plotH);
+        if (x2 - x1 > 42) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(x1, pad.top, x2 - x1, plotH);
+          ctx.clip();
+          ctx.fillStyle = "rgba(85,98,118,.8)";
+          ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          ctx.fillText(chairman.shortName, (x1 + x2) / 2, pad.top + 4);
+          ctx.restore();
+        }
+      });
+
+      ctx.strokeStyle = "rgba(226,232,242,.9)";
+      ctx.lineWidth = 1;
+      ctx.fillStyle = "#8a96a8";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+      scale.ticks.forEach((tick) => {
+        const y = yOf(tick);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        ctx.fillText(formatAxisLabel(tick, "%"), 4, y);
+      });
+
+      chairmen.forEach((chairman) => {
+        const group = points.filter((point) => point.chairmanId === chairman.id);
+        if (!group.length) return;
+        const color = chairColor(chairman.id);
+        ctx.beginPath();
+        group.forEach((point, index) => {
+          const x = xOf(point.time);
+          const y = yOf(point.value);
+          historicalRatePointCache.push({ x, y, value: point.value, name: point.name, color, month: new Date(point.time).getFullYear() + "-" + String(new Date(point.time).getMonth() + 1).padStart(2, "0") });
+          index ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        });
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.stroke();
+      });
+
+      const startYear = yearFromTime(minTime);
+      const endYear = yearFromTime(maxTime);
+      const labelItems = [{ year: startYear, align: "left", x: pad.left }];
+      for (let year = Math.ceil(startYear / 10) * 10; year <= endYear; year += 10) {
+        const x = xOf(new Date(year + "-01-01").getTime());
+        if (year !== startYear && year !== endYear && x > pad.left + 34 && x < width - pad.right - 38) {
+          labelItems.push({ year, align: "center", x });
+        }
+      }
+      labelItems.push({ year: endYear, align: "right", x: width - pad.right });
+      ctx.fillStyle = "#66748a";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "bottom";
+      labelItems.forEach((item) => {
+        ctx.textAlign = item.align;
+        ctx.fillText(String(item.year), item.x, height - 6);
+      });
+      drawHistoricalRateTooltip(ctx, width, height, pad);
+    }
+
+    function drawRangeChart(chart) {
+      const canvas = document.getElementById(`range-${chart.key}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const width = rect.width || 340;
+      const height = rect.height || 32;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const pointsSource = mode === "compare"
+        ? getSeriesPoints(compareIds[0] || currentId, chart.key)
+        : getSeriesPoints(currentId, chart.key);
+      if (!pointsSource.length) return;
+      const sourceValues = pointsSource.map((point) => point.value);
+      const values = mode === "compare" && chart.market ? performanceSeries(sourceValues) : sourceValues;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const padX = 1;
+      const top = 8;
+      const bottom = 5;
+      const plotW = width - padX * 2;
+      const plotH = height - top - bottom;
+      const firstDate = pointsSource.find((point) => point.date)?.date || getTermRange(currentId).start;
+      const lastDate = [...pointsSource].reverse().find((point) => point.date)?.date || getTermRange(currentId).end;
+      const firstTime = parseDateTime(firstDate);
+      const lastTime = parseDateTime(lastDate);
+      const rangeOwnerId = mode === "compare" ? (compareIds[0] || currentId) : currentId;
+      const rangeElapsedMax = mode === "compare"
+        ? elapsedYearsFromPoint(rangeOwnerId, pointsSource.at(-1), pointsSource.length - 1, pointsSource.length)
+        : 0;
+      const ticks = mode === "compare" ? buildElapsedTicks(0, rangeElapsedMax) : buildYearTicksForWidth(firstDate, lastDate, plotW, 52);
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#f8fbff";
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = "#e8edf5";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(.5, .5, width - 1, height - 1);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, width, height);
+      ctx.clip();
+
+      ctx.fillStyle = "#8b95a6";
+      ctx.font = "10px -apple-system, BlinkMacSystemFont, PingFang SC";
+      ctx.textBaseline = "top";
+      ticks.forEach((tick) => {
+        const ratio = mode === "compare"
+          ? tick / Math.max(rangeElapsedMax, 1)
+          : (new Date(Number(tick), 0, 1).getTime() - firstTime) / Math.max(lastTime - firstTime, 1);
+        const x = padX + plotW * clamp(ratio, 0, 1);
+        ctx.strokeStyle = "#e8edf5";
+        ctx.beginPath();
+        ctx.moveTo(x + .5, 0);
+        ctx.lineTo(x + .5, height);
+        ctx.stroke();
+        ctx.textAlign = ratio <= .03 ? "left" : ratio >= .97 ? "right" : "center";
+        ctx.fillText(mode === "compare" ? String(tick) + "年" : tick, clamp(x, 3, width - 3), 1);
+      });
+
+      const dated = mode !== "compare" && pointsSource.length > 1 && pointsSource.every((point) => point.date);
+      const startTime = dated ? new Date(pointsSource[0].date).getTime() : 0;
+      const endTime = dated ? new Date(pointsSource[pointsSource.length - 1].date).getTime() : 0;
+      const miniPoints = pointsSource.map((point, index) => {
+        const ratio = dated && endTime > startTime
+          ? (new Date(point.date).getTime() - startTime) / (endTime - startTime)
+          : index / Math.max(pointsSource.length - 1, 1);
+        return {
+          x: padX + plotW * clamp(ratio, 0, 1),
+          y: top + plotH - ((values[index] - min) / (max - min || 1)) * plotH
+        };
+      });
+
+      ctx.beginPath();
+      miniPoints.forEach((point, index) => index ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+      ctx.strokeStyle = "#88a9f4";
+      ctx.lineWidth = 1;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.stroke();
+
+      const range = getRangeState(chart.key);
+      const selectionLeft = Math.round(width * range.start);
+      const selectionRight = Math.round(width * range.end);
+      const selectionWidth = Math.max(1, selectionRight - selectionLeft);
+      ctx.fillStyle = "rgba(255,255,255,.78)";
+      ctx.fillRect(selectionLeft, 0, selectionWidth, height);
+      ctx.strokeStyle = "#e6eaf2";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(selectionLeft + .5, 0);
+      ctx.lineTo(selectionLeft + .5, height);
+      ctx.moveTo(selectionRight - .5, 0);
+      ctx.lineTo(selectionRight - .5, height);
+      ctx.stroke();
+      ctx.fillStyle = "rgba(216,222,232,.75)";
+      ctx.fillRect(selectionLeft - 2, 0, 4, height);
+      ctx.fillRect(selectionRight - 2, 0, 4, height);
+
+      ctx.restore();
+    }
+
+    init();
+  </script>
+</body>
+</html>
